@@ -6,9 +6,9 @@
   "password": "logbok",
   "database": "logbook",
   "synchronize": true,
-  "logging": false,
+  "logging": true,
   "entities": [
-    "src/domain/**/*.entity.ts"
+    "src/infrastructure/typeorm/schemas/**/*.ts"
   ],
   "migrations": [
     "src/infrastructure/typeorm/migrations/**/*.ts"
