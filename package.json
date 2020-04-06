@@ -1,0 +1,25 @@
+{
+  "name": "logbook-api-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "development": "ts-node src/server"
+  },
+  "author": "Thomaz Zandonotto",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "3.3.0",
+    "@types/node": "^8.0.29",
+    "typescript": "3.3.3333"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.4",
+    "@types/node": "^13.11.0",
+    "express": "^4.17.1",
+    "pg": "^8.0.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.24"
+  }
+}
