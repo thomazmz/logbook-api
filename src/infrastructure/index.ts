@@ -10,19 +10,19 @@ export let accountRepository: AccountRepository
 export let permissionRepository: PermissionRepository
 export let roleRepository: RoleRepository
 
-export function init() {
-  return Promise.all([ 
+export async function init() {
+
+  const [repositories, emailServiceImplementation, cacheServiceImplementation] = await Promise.all([
     setUpDatabaseProvider(),
     setUpEmailService(),
     setUpCacheService()
+  ])
 
-  ]).then(([ repositories, emailServiceImplementation, cacheServiceImplementation ]) => {
-    // Repositories
-    accountRepository = repositories.accountRepositoryImplementation,
-    permissionRepository = repositories.permissionRepositoryImplementation,
-    roleRepository = repositories.roleRepositoryImplementation
+  // Repositories
+  accountRepository = repositories.accountRepositoryImplementation,
+  permissionRepository = repositories.permissionRepositoryImplementation,
+  roleRepository = repositories.roleRepositoryImplementation
 
-    // Return infrastructure instances
-    return [ repositories, emailServiceImplementation, cacheServiceImplementation ] 
-  })
+  // Return infrastructure instances
+  return [repositories, emailServiceImplementation, cacheServiceImplementation]
 }
