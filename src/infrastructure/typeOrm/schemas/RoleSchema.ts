@@ -20,11 +20,12 @@ export const RoleSchema = new EntitySchema<Role>({
       target: 'account'
     },
     permissions: {
-        type: 'many-to-many',
-        target: 'permission',
-        joinTable: {
-          name: 'permissions_by_roles',
-        }
+      eager: true,
+      type: 'many-to-many',
+      target: 'permission',
+      joinTable: {
+        name: 'permissions_by_roles',
+      }
     }
   }
 })
