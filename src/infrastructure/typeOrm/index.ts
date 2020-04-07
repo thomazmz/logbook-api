@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import {createConnection, getConnectionOptions } from "typeorm"
-import { AccountRepositoryImplementation } from './repositories/AccountRepositoryImplementation'
-import { PermissionRepositoryImplementation } from './repositories/PermissionRepositoryImplementation'
-import { RoleRepositoryImplementation } from './repositories/RoleRepositoryImplementation'
-import { SnakeCaseNamingStrategy} from './strategies/SnakeCaseNamingStrategy'
+import { AccountRepositoryImplementation } from './repositories/accountRepositoryImplementation'
+import { PermissionRepositoryImplementation } from './repositories/permissionRepositoryImplementation'
+import { RoleRepositoryImplementation } from './repositories/roleRepositoryImplementation'
+import { SnakeCaseNamingStrategy} from './strategies/snakeCaseNamingStrategy'
 
 export async function init() {
   const connectionOptions = await getConnectionOptions()

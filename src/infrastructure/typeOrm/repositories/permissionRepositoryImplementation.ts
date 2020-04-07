@@ -1,6 +1,6 @@
 import { EntityRepository, AbstractRepository } from 'typeorm'
 import { Permission, PermissionRepository } from '../../../domain/permission'
-import { RoleSchema } from '../schemas/RoleSchema'
+import { RoleSchema } from '../schemas/roleSchema'
 
 @EntityRepository(RoleSchema)
 export class PermissionRepositoryImplementation extends AbstractRepository<Permission> implements PermissionRepository {
