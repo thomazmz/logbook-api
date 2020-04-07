@@ -1,15 +1,19 @@
-import { Repository, EntityRepository } from 'typeorm'
+import { AbstractRepository, EntityRepository } from 'typeorm'
 import { Account, AccountRepository } from '../../../domain/account'
 import { AccountSchema } from '../schemas/AccountSchema'
 
 @EntityRepository(AccountSchema)
-export class AccountRepositoryImplementation extends Repository<Account> implements AccountRepository {
-
-  findById(id: number) {
-    return super.findOne({ where: { id }})
+export class AccountRepositoryImplementation extends AbstractRepository<Account> implements AccountRepository {
+  
+  save(account: Account): Promise<Account> {
+    return this.repository.save(account)
   }
 
-  someRequiredMethod(): void {
-    console.log('Called some required method')
+  findById(id: number) {
+    return this.repository.findOne({ where: { id }})
+  }
+
+  findByIdWithRoles(id: number) {
+    return this.repository.findOne({ where: { id }, relations: [ 'roles' ]})
   }
 }
