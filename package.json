@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "development": "ts-node src/server"
+    "build": "./scripts/build.sh",
+    "development": "scripts/development.sh",
+    "test": "scripts/test.sh"
   },
   "author": "Thomaz Zandonotto",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "express": "^4.17.1",
     "pg": "^8.0.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.24"
+    "typeorm": "^0.2.24",
+    "jest": "^24.9.0"
   }
 }
