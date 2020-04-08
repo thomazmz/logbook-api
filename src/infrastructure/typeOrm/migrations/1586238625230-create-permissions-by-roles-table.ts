@@ -10,9 +10,9 @@ export class createPermissionsByRolesTable1586238625230 implements MigrationInte
         CONSTRAINT "permissions_by_roles_primary_key" PRIMARY KEY ("role_id", "permission_id")
       );
       CREATE INDEX "permissions_by_roles_role_id_index"
-        ON permissions_by_roles ("roleId");
+        ON permissions_by_roles ("role_id");
       CREATE INDEX "permissions_by_roles_permission_id_index"
-        ON permissions_by_roles ("permissionId");
+        ON permissions_by_roles ("permission_id");
     `);
   }
 
