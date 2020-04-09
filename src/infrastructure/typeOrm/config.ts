@@ -6,7 +6,7 @@ export const config = {
     username: "logbook",
     password: "logbook",
     database: "logbook",
-    synchronize: true,
+    migrationsRun: true,
     logging: true,
   },
   test : {
@@ -16,7 +16,7 @@ export const config = {
     username: "logbook",
     password: "logbook",
     database: "logbook-test",
-    synchronize: true,
+    migrationsRun: true,
     logging: true,
   },
   production : {
@@ -26,7 +26,7 @@ export const config = {
     username: process.env.POSTGRES_USERNAME,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
-    synchronize: true,
-    logging: true,
+    migrationsRun: true,
+    logging: false,
   }
 }

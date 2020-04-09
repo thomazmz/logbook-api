@@ -2,6 +2,7 @@ import { NamingStrategyInterface, DefaultNamingStrategy } from 'typeorm'
 import { snakeCase } from 'typeorm/util/StringUtils'
 
 export class SnakeCaseNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
+
   tableName(className: string, customName: string): string {
     return customName ? customName : snakeCase(className)
   }
@@ -18,10 +19,7 @@ export class SnakeCaseNamingStrategy extends DefaultNamingStrategy implements Na
     return snakeCase(relationName + "_" + referencedColumnName)
   }
 
-  joinTableName(firstTableName: string,
-    secondTableName: string,
-    firstPropertyName: string,
-    secondPropertyName: string): string {
+  joinTableName(firstTableName: string, secondTableName: string, firstPropertyName: string, secondPropertyName: string): string {
     return snakeCase(firstTableName + "_" + firstPropertyName.replace(/\./gi, "_") + "_" + secondTableName)
   }
 

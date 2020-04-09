@@ -1,4 +1,4 @@
-import { init as setUpDatabaseProvider } from './typeOrm'
+import { init as setUpDatabase } from './typeOrm'
 import { init as setUpEmailService } from './sendGrid'
 import { init as setUpCacheService } from './redis'
 
@@ -12,17 +12,15 @@ export let roleRepository: RoleRepository
 
 export async function init() {
 
-  const [repositories, emailServiceImplementation, cacheServiceImplementation] = await Promise.all([
-    setUpDatabaseProvider(),
+  const [database, emailService, cacheService] = await Promise.all([
+    setUpDatabase(),
     setUpEmailService(),
     setUpCacheService()
   ])
 
-  // Repositories
-  accountRepository = repositories.accountRepositoryImplementation,
-  permissionRepository = repositories.permissionRepositoryImplementation,
-  roleRepository = repositories.roleRepositoryImplementation
+  accountRepository = database.accountRepository,
+  permissionRepository = database.permissionRepository,
+  roleRepository = database.roleRepository
 
-  // Return infrastructure instances
-  return [repositories, emailServiceImplementation, cacheServiceImplementation]
+  return [database, emailService, cacheService]
 }
