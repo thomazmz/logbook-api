@@ -1,8 +1,8 @@
 import { EntityRepository, AbstractRepository } from 'typeorm'
 import { Permission, PermissionRepository } from '../../../domain/permission'
-import { RoleSchema } from '../schemas/roleSchema'
+import { PermissionSchema } from '../schemas/permissionSchema'
 
-@EntityRepository(RoleSchema)
+@EntityRepository(PermissionSchema)
 export class TypeOrmPermissionRepository extends AbstractRepository<Permission> implements PermissionRepository {
 
   findOrCreate(attributes: Partial<Permission>): Promise<Permission> {
@@ -24,6 +24,6 @@ export class TypeOrmPermissionRepository extends AbstractRepository<Permission> 
 
   async deleteByName(name: string) {
     await this.repository.findOne({ where: { name }})
-      .then(permission => this.repository.remove(permission))
+      .then(permission => this.repository.delete(permission))
   }
 }
