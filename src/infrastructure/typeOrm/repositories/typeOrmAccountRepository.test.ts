@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '..'
 import { Account, AccountRepository } from '../../../domain/account'
 
-function generateAccountAttributes() {
+function generateUniqueAccountAttributes() {
   const identifier = uuid()
   return {
     username: `username_${identifier}`,
@@ -24,10 +24,10 @@ describe('Account repository tests', () => {
     await connection.dropDatabase()
     await connection.close()
   })
-
+  
   it('should create account with id attribute', async () => {
     // Given
-    const accountAttributes = generateAccountAttributes()
+    const accountAttributes = generateUniqueAccountAttributes()
     // When
     const account = new Account(accountAttributes)
     await accountRepository.save(account)
@@ -37,7 +37,7 @@ describe('Account repository tests', () => {
 
   it('should find account by id', async () => {
     // Given
-    const accountAttributes = generateAccountAttributes()
+    const accountAttributes = generateUniqueAccountAttributes()
     // When
     const account = new Account(accountAttributes)
     await accountRepository.save(account)

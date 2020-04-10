@@ -3,7 +3,7 @@ import { Role, RoleRepository } from '../../../domain/role'
 import { RoleSchema } from '../schemas/roleSchema'
 
 @EntityRepository(RoleSchema)
-export class RoleRepositoryImplementation extends AbstractRepository<Role> implements RoleRepository {
+export class TypeOrmRoleRepository extends AbstractRepository<Role> implements RoleRepository {
 
   save(role: Role): Promise<Role> {
     return this.repository.save(role)

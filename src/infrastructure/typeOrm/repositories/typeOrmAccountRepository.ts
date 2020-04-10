@@ -3,7 +3,7 @@ import { Account, AccountRepository } from '../../../domain/account'
 import { AccountSchema } from '../schemas/accountSchema'
 
 @EntityRepository(AccountSchema)
-export class AccountRepositoryImplementation extends AbstractRepository<Account> implements AccountRepository {
+export class TypeOrmAccountRepository extends AbstractRepository<Account> implements AccountRepository {
   
   save(account: Account): Promise<Account> {
     return this.repository.save(account)

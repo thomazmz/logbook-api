@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { createConnection, getConnectionOptions } from "typeorm"
-import { PermissionRepositoryImplementation } from './repositories/permissionRepositoryImplementation'
-import { AccountRepositoryImplementation } from './repositories/accountRepositoryImplementation'
-import { RoleRepositoryImplementation } from './repositories/roleRepositoryImplementation'
+import { TypeOrmPermissionRepository } from './repositories/typeOrmPermissionRepository'
+import { TypeOrmAccountRepository } from './repositories/typeOrmAccountRepository'
+import { TypeOrmRoleRepository } from './repositories/typeOrmRoleRepository'
 import { SnakeCaseNamingStrategy } from "./strategies/snakeCaseNamingStrategy";
 import { config } from './config'
 
@@ -17,8 +17,8 @@ export async function init() {
 
   return {
     connection,
-    accountRepository: connection.manager.getCustomRepository(AccountRepositoryImplementation),
-    permissionRepository: connection.manager.getCustomRepository(PermissionRepositoryImplementation),
-    roleRepository: connection.manager.getCustomRepository(RoleRepositoryImplementation)
+    accountRepository: connection.manager.getCustomRepository(TypeOrmAccountRepository),
+    permissionRepository: connection.manager.getCustomRepository(TypeOrmPermissionRepository),
+    roleRepository: connection.manager.getCustomRepository(TypeOrmRoleRepository)
   }
 }

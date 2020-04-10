@@ -3,7 +3,7 @@ import { Permission, PermissionRepository } from '../../../domain/permission'
 import { RoleSchema } from '../schemas/roleSchema'
 
 @EntityRepository(RoleSchema)
-export class PermissionRepositoryImplementation extends AbstractRepository<Permission> implements PermissionRepository {
+export class TypeOrmPermissionRepository extends AbstractRepository<Permission> implements PermissionRepository {
 
   findOrCreate(attributes: Partial<Permission>): Promise<Permission> {
     return this.repository.findOne({ where: attributes})
