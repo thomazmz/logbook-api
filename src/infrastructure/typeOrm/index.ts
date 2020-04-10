@@ -1,17 +1,14 @@
 import "reflect-metadata";
-import { createConnection, getConnectionOptions } from "typeorm"
+import { createConnection } from "typeorm"
 import { TypeOrmPermissionRepository } from './repositories/typeOrmPermissionRepository'
 import { TypeOrmAccountRepository } from './repositories/typeOrmAccountRepository'
 import { TypeOrmRoleRepository } from './repositories/typeOrmRoleRepository'
 import { SnakeCaseNamingStrategy } from "./strategies/snakeCaseNamingStrategy";
-import { config } from './config'
+import connectionOptions from './config'
 
 export async function init() {
 
-  const namingStrategy = new SnakeCaseNamingStrategy()
-  const connectionOptions = await getConnectionOptions()
-
-  Object.assign(connectionOptions, config[process.env.NODE_ENV], { namingStrategy })
+  connectionOptions.namingStrategy = new SnakeCaseNamingStrategy()
 
   const connection = await createConnection(connectionOptions)
 

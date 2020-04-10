@@ -1,4 +1,6 @@
-export const config = {
+const environment = process.env.NODE_ENV
+
+const connectionOptions = {
   development : {
     type: "postgres",
     host: "localhost",
@@ -6,8 +8,16 @@ export const config = {
     username: "logbook",
     password: "logbook",
     database: "logbook",
-    migrationsRun: true,
+    migrationsRun: false,
     logging: true,
+    entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
+    migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
+    subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],
+    cli: {
+      entitiesDir: "src/infrastructure/typeorm/schemas",
+      migrationsDir: "src/infrastructure/typeorm/migrations",
+      subscribersDir: "src/infrastructure/typeorm/subscribers"
+    }
   },
   test : {
     type: "postgres",
@@ -16,8 +26,16 @@ export const config = {
     username: "logbook",
     password: "logbook",
     database: "logbook-test",
-    migrationsRun: true,
+    migrationsRun: false,
     logging: false,
+    entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
+    migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
+    subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],
+    cli: {
+      entitiesDir: "src/infrastructure/typeorm/schemas",
+      migrationsDir: "src/infrastructure/typeorm/migrations",
+      subscribersDir: "src/infrastructure/typeorm/subscribers"
+    }
   },
   production : {
     type: "postgres",
@@ -28,5 +46,15 @@ export const config = {
     database: process.env.POSTGRES_DATABASE,
     migrationsRun: true,
     logging: false,
+    entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
+    migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
+    subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],
+    cli: {
+      entitiesDir: "src/infrastructure/typeorm/schemas",
+      migrationsDir: "src/infrastructure/typeorm/migrations",
+      subscribersDir: "src/infrastructure/typeorm/subscribers"
+    }
   }
 }
+
+export = connectionOptions[environment]
