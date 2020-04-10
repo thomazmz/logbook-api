@@ -12,7 +12,7 @@ export default class Permission {
   
   roles: Role[]
 
-  constructor(name: string) {
-    this.name = name;
+  constructor(attributes: Partial<Permission>) {
+    Object.assign(this, attributes)
   }
 }

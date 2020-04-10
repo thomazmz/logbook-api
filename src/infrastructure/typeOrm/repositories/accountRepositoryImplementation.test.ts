@@ -8,7 +8,6 @@ function generateAccountAttributes() {
   return {
     username: `username_${identifier}`,
     email: `some@email.com_${identifier}`,
-    passwordLiteral: `password_${identifier}`
   }
 }
 

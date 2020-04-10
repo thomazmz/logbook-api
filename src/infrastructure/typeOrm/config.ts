@@ -17,7 +17,7 @@ export const config = {
     password: "logbook",
     database: "logbook-test",
     migrationsRun: true,
-    logging: true,
+    logging: false,
   },
   production : {
     type: "postgres",

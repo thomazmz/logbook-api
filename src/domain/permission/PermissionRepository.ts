@@ -4,12 +4,12 @@ export default interface PermissionRepository {
 
   findAll(): Promise<Permission[]>
 
-  findOrCreateByName(name: string): Promise<Permission>
+  findOrCreate(attributes: Partial<Permission>): Promise<Permission>
+  
+  findOrCreateMany(attributes: Partial<Permission>[]): Promise<Permission[]>
 
-  findOrCreateByNames(names: string[]): Promise<Permission[]>
+  findByName(name: string): Promise<Permission>
 
   deleteByName(name: string)
-
-  deleteByNames(names: string[])
 
 }

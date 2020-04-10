@@ -15,11 +15,7 @@ export default class Role {
 
   accounts: Account[]
 
-  constructor(name: string) {
-    this.name = name;
-  }
-
-  setPermissions(permissions: Permission[]) {
-    this.permissions = permissions;
+  constructor(attributes: Partial<Role>) {
+    Object.assign(this, attributes)
   }
 }
