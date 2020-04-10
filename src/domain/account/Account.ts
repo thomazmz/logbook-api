@@ -16,9 +16,8 @@ export default class Account {
 
   roles: Role[];
 
-  constructor(username: string, email: string) {
-    this.username = username;
-    this.email = email;
+  constructor(attributes: Partial<Account>) {
+    Object.assign(this, attributes);
   }
 
   setPasswordHash (passwordLiteral: string): void {

@@ -1,9 +1,9 @@
-import { v4 as uuid } from 'uuid'
 import { Connection } from 'typeorm'
+import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '..'
 import { Account, AccountRepository } from '../../../domain/account'
 
-function getAccountAttributes() {
+function generateAccountAttributes() {
   const identifier = uuid()
   return {
     username: `username_${identifier}`,
@@ -28,11 +28,23 @@ describe('Account repository tests', () => {
 
   it('should create account with id attribute', async () => {
     // Given
-    const { username, email } = getAccountAttributes()
+    const accountAttributes = generateAccountAttributes()
     // When
-    const account = new Account(username, email)
+    const account = new Account(accountAttributes)
     await accountRepository.save(account)
     // Then
     expect(account.id != null).toBeTruthy()
+  })
+
+  it('should find account by id', async () => {
+    // Given
+    const accountAttributes = generateAccountAttributes()
+    // When
+    const account = new Account(accountAttributes)
+    await accountRepository.save(account)
+    const findedAccount = await accountRepository.findById(account.id)
+    // Then
+    expect(account.email).toBe(findedAccount.email)
+    expect(account.username).toBe(findedAccount.username)
   })
 })
