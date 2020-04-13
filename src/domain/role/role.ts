@@ -1,5 +1,5 @@
-import Account from '../account/Account';
-import Permission from '../permission/Permission'
+import { Account } from '../account'
+import { Permission } from '../permission'
 
 export default class Role {
 
