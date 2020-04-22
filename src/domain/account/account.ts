@@ -1,6 +1,6 @@
 import { sign, verify} from 'jsonwebtoken'
 import { hash, compare } from 'bcrypt';
-import { Role } from '../role'
+import { Role } from '../role/role'
 
 export class Account {
 

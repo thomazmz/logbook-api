@@ -14,7 +14,6 @@ describe('Permission service tests', () => {
   })
 
   it('should return created account', async () => {
-    // Given
     const email = 'some@email.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'

@@ -1,10 +1,9 @@
 import { AbstractRepository, EntityRepository } from 'typeorm'
-import { Account, AccountRepository } from '../../../domain/account'
 import { AccountSchema } from '../schemas/accountSchema'
+import { Account, AccountRepository } from '../../../domain'
 
 @EntityRepository(AccountSchema)
 export class TypeOrmAccountRepository extends AbstractRepository<Account> implements AccountRepository {
-  
   save(account: Account): Promise<Account> {
     return this.repository.save(account)
   }
@@ -15,5 +14,13 @@ export class TypeOrmAccountRepository extends AbstractRepository<Account> implem
 
   findByIdWithRoles(id: number) {
     return this.repository.findOne({ where: { id }, relations: [ 'roles' ]})
+  }
+
+  findOneByEmail(email: string): Promise<Account> {
+    return this.repository.findOne({ where: { email }, relations: [ 'roles' ]})
+  }
+
+  findOneByUsername(username: string): Promise<Account> {
+    return this.repository.findOne({ where: { username }, relations: [ 'roles' ]})
   }
 }

@@ -1,6 +1,6 @@
-import { Role } from ".";
+import { Role } from './role'
 
-export default interface RoleRepository {
+export interface RoleRepository {
 
   save(role: Role): Promise<Role>
 

@@ -1,19 +1,19 @@
-import { Connection } from 'typeorm'
-import { v4 as uuid } from 'uuid'
+import { getCustomRepository } from 'typeorm'
 import { init as setUpDatabase } from '..'
-import { Role, RoleRepository } from '../../../domain/role'
+import { TypeOrmRoleRepository } from './typeOrmRoleRepository'
 
 describe('Account repository tests', () => {
 
-  let connection: Connection
-  let roleRepository: RoleRepository
+  let disconectDatabase: Function
+  let roleRepository: TypeOrmRoleRepository
 
   beforeAll(async () => {
-    ({ connection, roleRepository } = await setUpDatabase())
+    disconectDatabase = await setUpDatabase()
+    roleRepository = getCustomRepository(TypeOrmRoleRepository)
   })
 
   afterAll(async () => {
-    await connection.close()
+    await disconectDatabase()
   })
 
   it('should pass', async () => {

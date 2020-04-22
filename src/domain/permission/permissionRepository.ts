@@ -1,15 +1,14 @@
-import { Permission } from ".";
+import { Permission } from './permission'
 
-export default interface PermissionRepository {
+export interface PermissionRepository {
 
   findAll(): Promise<Permission[]>
 
   findOrCreate(attributes: Partial<Permission>): Promise<Permission>
-  
+
   findOrCreateMany(attributes: Partial<Permission>[]): Promise<Permission[]>
-
+  
   findByName(name: string): Promise<Permission>
-
-  deleteByName(name: string)
-
+  
+  deleteByName(name: string): Promise<void>
 }

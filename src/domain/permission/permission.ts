@@ -1,6 +1,6 @@
-import { Role } from '../role'
+import { Role } from '../role/role'
 
-export default class Permission {
+export class Permission {
 
   id: number
 

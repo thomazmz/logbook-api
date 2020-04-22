@@ -1,5 +1,5 @@
 import { EntitySchema } from "typeorm";
-import { Permission } from '../../../domain/permission'
+import { Permission } from '../../../domain'
 
 export const PermissionSchema = new EntitySchema<Permission>({
   name: 'permission',
