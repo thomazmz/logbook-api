@@ -24,13 +24,13 @@ describe('Account tests', () => {
     expect(account.checkPassword(`!${passwordLiteral}`)).toBeTruthy()
   })
 
-  // it('Should generate JWT with user payload', async () => {
-  //   // Given
-  //   const account = new Account({ id: 1 })
-  //   // When
-  //   const jwt = account.generateBarearToken()
-  //   const jwtDecoded = jwtDecoder(jwt)
-  //   // Then
-  //   expect(jwtDecoded.id).toBe(account.id);
-  // })
+  it('Should generate JWT with user payload', async () => {
+    // Given
+    const account = new Account({ id: 1 })
+    // When
+    const jwt = await account.generateJwt()
+    const jwtDecoded = jwtDecoder(jwt)
+    // Then
+    expect(jwtDecoded.id).toBe(account.id);
+  })
 })

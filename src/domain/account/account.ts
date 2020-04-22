@@ -1,5 +1,5 @@
-import { compare, sign as createToken } from 'jsonwebtoken'
-import { hash } from 'bcrypt';
+import { sign, verify} from 'jsonwebtoken'
+import { hash, compare } from 'bcrypt';
 import { Role } from '../role'
 
 export class Account {
@@ -33,8 +33,16 @@ export class Account {
     return await compare(passwordLiteral, this.passwordHash)
   }
 
-  async generateBarearToken() {
+  async generateJwt() {
     const payload = { id: this.id }
-    return await createToken(payload, Account.JWT_SECRET)
+    return new Promise((resolve, reject) => {
+      sign(payload, Account.JWT_SECRET, (error, token) => error ? reject(error) : resolve(token))
+    })
+  }
+
+  async verifyJwt(token: string) {
+    return new Promise((resolve, reject) => {
+      verify(token, Account.JWT_SECRET, (error, decodedToken) => error ? reject(error) : resolve(decodedToken))
+    })
   }
 }
