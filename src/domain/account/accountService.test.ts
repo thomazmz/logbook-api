@@ -42,4 +42,17 @@ describe('Permission service tests', () => {
 
     await expect(accountService.create(email, username, passwordLiteral)).rejects.toThrow('Username already in use.')
   })
+
+  it('should return account by id', async () => {
+    const id = 1
+    const email = 'some@email.com'
+    const username = 'someUsername'
+    accountRepository.findById.calledWith(id).mockResolvedValue(new Account({ id, email, username }))
+
+    const findedAccount = await accountService.findById(id)
+
+    expect(findedAccount.id).toBe(id)
+    expect(findedAccount.email).toBe(email)
+    expect(findedAccount.username).toBe(username)
+  })
 })

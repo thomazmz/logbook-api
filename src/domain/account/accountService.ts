@@ -3,11 +3,12 @@ import { Account } from './account'
 
 export type AccountService = { 
   create(email:string, username: string, passwordLiteral: string): Promise<Account>
+  findById(id: number): Promise<Account>
 }
 
 export const accountServiceFactory = (accountRepository: AccountRepository): AccountService => ({
 
-  async create(email:string, username: string, passwordLiteral: string): Promise<Account> {
+  async create(email: string, username: string, passwordLiteral: string): Promise<Account> {
 
     const findedByEmail = await accountRepository.findOneByEmail(email)
     if(findedByEmail) throw new Error('Email already in use.');
@@ -19,5 +20,10 @@ export const accountServiceFactory = (accountRepository: AccountRepository): Acc
     await account.setPasswordHash(passwordLiteral)
     
     return accountRepository.save(account)
+  },
+
+  async findById(id: number): Promise<Account> {
+    const findedAccount = await accountRepository.findById(id)
+    return findedAccount;
   }
 })
