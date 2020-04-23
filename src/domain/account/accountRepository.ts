@@ -1,6 +1,6 @@
 import { Account } from "./account";
 
-export interface AccountRepository {
+export type AccountRepository = {
 
   findById(id: number): Promise<Account>
 

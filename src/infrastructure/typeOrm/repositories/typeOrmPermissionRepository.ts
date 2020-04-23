@@ -1,5 +1,6 @@
 import { EntityRepository, AbstractRepository } from 'typeorm'
-import { Permission, PermissionRepository } from '../../../domain'
+import { Permission } from '../../../domain/permission/permission'
+import { PermissionRepository } from '../../../domain/permission/permissionRepository'
 import { PermissionSchema } from '../schemas/permissionSchema'
 
 @EntityRepository(PermissionSchema)

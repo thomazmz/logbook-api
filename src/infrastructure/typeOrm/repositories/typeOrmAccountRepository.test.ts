@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm'
 import { v4 as uuid } from 'uuid'
-import { Account } from '../../../domain'
-import { init as setUpDatabase } from '..'
 import { TypeOrmAccountRepository } from './typeOrmAccountRepository'
+import { Account } from '../../../domain'
+import { init as setUpDatabase } from '../initializer'
 
 function generateUniqueAccountAttributes() {
   const identifier = uuid()
@@ -61,7 +61,7 @@ describe('Account repository tests', () => {
 
     const account = new Account(accountAttributes)
     await accountRepository.save(account)
-    const findedAccount = await accountRepository.findOneByEmail(account.username)
+    const findedAccount = await accountRepository.findOneByUsername(account.username)
 
     expect(account.email).toBe(findedAccount.email)
   })

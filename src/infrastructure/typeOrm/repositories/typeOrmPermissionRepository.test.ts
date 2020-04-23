@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm'
 import { v4 as uuid } from 'uuid'
-import { init as setUpDatabase } from '..'
+import { init as setUpDatabase } from '../initializer'
 import { TypeOrmPermissionRepository } from './typeOrmPermissionRepository'
 
 describe('Account repository tests', () => {

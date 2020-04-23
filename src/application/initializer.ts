@@ -1,33 +1,34 @@
-import { createContainer, InjectionMode, asFunction } from 'awilix'
-import express, { Router } from 'express';
-import { json } from 'body-parser'
 
-import * as infrastructure from '../infrastructure';
+import express from 'express'
+import bodyParser from 'body-parser'
+import { createContainer, asFunction, InjectionMode } from 'awilix'
+import { accountRouterFactory } from './account/accountRouter'
+import { accountControllerFactory } from './account/accountController'
+import { accountRepositoryFactory } from '../infrastructure'
+import { accountServiceFactory } from '../domain'
 
-// Export application setup function
 export async function init(port: Number = 4040) {
 
-  // Setup Awilix dependency injection container
-  // const container = createContainer({
-  //   injectionMode: InjectionMode.CLASSIC
-  // })
-
-  // container.register({
-  //   permissionRepository: asFunction(permissionRepositoryFactory)
-  // })
-
-  // apiRouter.use('/permissions', container.resolve('permissionRouter'))
-
-  // Dependency Injection
-  // apiRouter.use('/permissions', container.resolve('permissionRouter'))
+  // Set up awlix container
+  const container = createContainer({
+    injectionMode: InjectionMode.CLASSIC
+  })
+    
+  container.register({
+    accountRepository: asFunction(accountRepositoryFactory),
+    accountService: asFunction(accountServiceFactory),
+    accountController: asFunction(accountControllerFactory),
+    accountRouter: asFunction(accountRouterFactory)
+  })
 
   // Setup api router
-  const bodyParser = json()
-  const apiRouter = Router()
-  apiRouter.use(bodyParser)
+  const apiRouter = express.Router()
+  apiRouter.use(bodyParser.json())
+
+  apiRouter.use('/accounts', container.resolve('accountRouter'))
 
   // Setup application router
-  const applicationRouter = Router()
+  const applicationRouter = express.Router()
   applicationRouter.use('/api', apiRouter)
 
   const application = express()

@@ -1,6 +1,6 @@
 export { Account } from './account/account'
 export { AccountRepository } from './account/accountRepository'
-export { AccountService } from './account/acountService'
+export { AccountService, accountServiceFactory} from './account/accountService'
 
 export { Permission } from './permission/permission'
 export { PermissionRepository } from './permission/permissionRepository'

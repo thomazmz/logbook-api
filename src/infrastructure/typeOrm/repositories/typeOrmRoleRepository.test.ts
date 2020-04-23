@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm'
-import { init as setUpDatabase } from '..'
+import { init as setUpDatabase } from '../initializer'
 import { TypeOrmRoleRepository } from './typeOrmRoleRepository'
 
 describe('Account repository tests', () => {

@@ -9,7 +9,7 @@ const connectionOptions = {
     password: "logbook",
     database: "logbook",
     migrationsRun: false,
-    logging: true,
+    logging: false,
     entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
     migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
     subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],

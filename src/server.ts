@@ -1,6 +1,6 @@
-import { init as setUpInfrastructure } from './infrastructure'
-import { init as setupApplication } from './application/application'
+import { setUpInfrastructure } from './infrastructure'
+import { setUpApplication} from './application'
 
 setUpInfrastructure()
-  .then(() => setupApplication()) 
+  .then(() => setUpApplication()) 
   .catch(err => { console.log(err)})

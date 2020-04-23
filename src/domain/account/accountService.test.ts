@@ -1,5 +1,5 @@
 import { mock, MockProxy as Mock } from 'jest-mock-extended'
-import { AccountService } from './acountService'
+import { AccountService, accountServiceFactory } from './accountService'
 import { AccountRepository } from './accountRepository'
 import { Account } from './account'
 
@@ -10,7 +10,7 @@ describe('Permission service tests', () => {
 
   beforeEach(async () => {
     accountRepository = mock<AccountRepository>()
-    accountService = new AccountService(accountRepository)
+    accountService = accountServiceFactory(accountRepository)
   })
 
   it('should return created account', async () => {

@@ -1,6 +1,6 @@
-import { AbstractRepository, EntityRepository } from 'typeorm'
-import { AccountSchema } from '../schemas/accountSchema'
+import { EntityRepository, AbstractRepository } from 'typeorm'
 import { Account, AccountRepository } from '../../../domain'
+import { AccountSchema } from '../schemas/accountSchema'
 
 @EntityRepository(AccountSchema)
 export class TypeOrmAccountRepository extends AbstractRepository<Account> implements AccountRepository {
