@@ -8,3 +8,4 @@ export { PermissionService } from './permission/permissionService'
 
 export { Role } from './role/role'
 export { RoleRepository } from './role/roleRepository'
+export { RoleService } from './role/roleService'

@@ -13,14 +13,14 @@ describe('Permission service tests', () => {
     permissionService = permissionServiceFactory(permissionRepository)
   })
 
-  it('should return created account', async () => {
+  it('should return created permission', async () => {
     // Given
     const name = 'somePermission'
     const permission = new Permission({ name })
     // When
     permissionRepository.save.mockResolvedValue(permission)
     const createdPermission = await permissionService.create(name)
-    // THen
+    // Then
     expect(createdPermission).toBe(permission)
   })
 

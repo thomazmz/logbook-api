@@ -4,11 +4,7 @@ import { Permission } from '../permission/permission'
 export class Role {
 
   id: number
-
-  screatedAt: Date;
-
-  updatedAt: Date;
-
+  
   name: string
 
   permissions: Permission[]
