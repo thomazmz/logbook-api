@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '../initializer'
 import { TypeOrmPermissionRepository } from './typeOrmPermissionRepository'
+import { Permission } from '../../../domain'
 
 describe('Account repository tests', () => {
 
@@ -17,6 +18,28 @@ describe('Account repository tests', () => {
     await disconectDatabase()
   })
 
+  it('should assign id when saving new permission', async () => {
+    // Given 
+    const name = `somePermission_${uuid()}`
+    const permission = new Permission({ name })
+    // When
+    await permissionRepository.save(permission)
+    // Then
+    expect(permission.id != null).toBeTruthy()
+  })
+
+  it('should find permission by name', async () => {
+    // Given 
+    const name = `somePermission_${uuid()}`
+    const permission = new Permission({ name })
+    // When
+    await permissionRepository.save(permission)
+    const findedPermission = await permissionRepository.findByName(name)
+    // Then
+    expect(permission.id).toBe(findedPermission.id)
+    expect(permission.name).toBe(findedPermission.name)
+  })
+  
   it('should find or create permission', async () => {
     // Given
     const name = `validPermission_${uuid()}`
