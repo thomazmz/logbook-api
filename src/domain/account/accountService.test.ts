@@ -14,43 +14,49 @@ describe('Permission service tests', () => {
   })
 
   it('should return created account', async () => {
+    // Given
     const email = 'some@email.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
-
     const account = new Account({ email, username })
+    // When
     accountRepository.save.mockResolvedValue(account)
     const createdAccount = await accountService.create(email, username, passwordLiteral)
-
+    // Then
     expect(createdAccount).toBe(account)
   })
 
   it('should return appropriate error message if email is already in use', async () => {
+    // Given
     const email = 'some@email.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
-    accountRepository.findOneByEmail.mockResolvedValue(new Account({ email, username }))
-
+    const account = new Account({ email, username })
+    accountRepository.findOneByEmail.mockResolvedValue(account)
+    // When/Then
     await expect(accountService.create(email, username, passwordLiteral)).rejects.toThrow('Email already in use.')
   })
 
   it('should return appropriate error message if username is already in use', async () => {
+    // Given
     const email = 'some@email.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
-    accountRepository.findOneByUsername.mockResolvedValue(new Account({ email, username }))
-
+    accountRepository.findOneByUsername.mockResolvedValue(mock<Account>())
+    // When/Then
     await expect(accountService.create(email, username, passwordLiteral)).rejects.toThrow('Username already in use.')
   })
 
   it('should return account by id', async () => {
+    // Given
     const id = 1
     const email = 'some@email.com'
     const username = 'someUsername'
-    accountRepository.findById.calledWith(id).mockResolvedValue(new Account({ id, email, username }))
-
+    const account = new Account({ id, email, username })
+    accountRepository.findById.calledWith(id).mockResolvedValue(account)
+    // When
     const findedAccount = await accountService.findById(id)
-
+    // Then
     expect(findedAccount.id).toBe(id)
     expect(findedAccount.email).toBe(email)
     expect(findedAccount.username).toBe(username)
