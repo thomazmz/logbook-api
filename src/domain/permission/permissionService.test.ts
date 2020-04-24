@@ -14,20 +14,23 @@ describe('Permission service tests', () => {
   })
 
   it('should return created account', async () => {
+    // Given
     const name = 'somePermission'
-
     const permission = new Permission({ name })
+    // When
     permissionRepository.save.mockResolvedValue(permission)
     const createdPermission = await permissionService.create(name)
-
+    // THen
     expect(createdPermission).toBe(permission)
   })
 
   it('should return appropriate error message if email is already in use', async () => {
+    // Given
     const name = 'somePermission'
-
-    permissionRepository.findByName.mockResolvedValue(new Permission({ name }))
-
+    const permission = new Permission({ name })
+    // When
+    permissionRepository.findByName.mockResolvedValue(permission)
+    // Then
     await expect(permissionService.create(name)).rejects.toThrow('Name already in use.')
   })
 })
