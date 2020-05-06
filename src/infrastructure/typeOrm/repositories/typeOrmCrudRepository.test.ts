@@ -12,7 +12,10 @@ describe('TypeOrmCrudRepository tests', () => {
   }
 
   const TestResourceSchema = new EntitySchema<TestResource>({
-    name: 'TestResource', columns: { ...BaseSchema }
+    name: TestResource.name,
+    target: TestResource,
+    tableName: 'testResource',
+    columns: { ...BaseSchema }
   })
   
   @EntityRepository(TestResourceSchema)
@@ -34,23 +37,16 @@ describe('TypeOrmCrudRepository tests', () => {
     await databaseConnection.close()
     await queryRunner.dropTable('test_resource')
   })
-
-  // FIXME TypeORM repository is not returning model class entity but plain javascript objects
-  //
-  // Asked question on Stack Overflow 
-  //   https://stackoverflow.com/questions/61582489/why-typeorm-repository-findone-method-are-returning-plain-objects
-  // Opened issue on typeorm github 
-  //   https://github.com/typeorm/typeorm/issues/5996
-  //
-  // it('should return a TestResource object when findById is called', async () => {
-  //   // Given
-  //   const testResource = new TestResource()
-  //   // When
-  //   await testResourceRepository.save(testResource)
-  //   const findedResource: TestResource = await testResourceRepository.findById(testResource.id)
-  //   // Then
-  //   expect(findedResource).toEqual(testResource)
-  // })
+  
+  it('should return object of type TestResource when findById is called', async () => {
+    // Given
+    const testResource = new TestResource()
+    // When
+    await testResourceRepository.save(testResource)
+    const findedResource: TestResource = await testResourceRepository.findById(testResource.id)
+    // Then
+    expect(findedResource instanceof TestResource).toBe(true)
+  })
 
   it('should save and find saved resource by id', async () => {
     // Given
