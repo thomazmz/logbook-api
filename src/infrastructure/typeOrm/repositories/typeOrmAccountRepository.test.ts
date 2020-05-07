@@ -35,7 +35,7 @@ describe('Account repository tests', () => {
     expect(account.id != null).toBeTruthy()
   })
 
-  it('should find account by id', async () => {
+  it('should find Account instance by id', async () => {
     const accountAttributes = generateUniqueAccountAttributes()
 
     const account = new Account(accountAttributes)
@@ -44,9 +44,10 @@ describe('Account repository tests', () => {
 
     expect(account.email).toBe(findedAccount.email)
     expect(account.username).toBe(findedAccount.username)
+    expect(findedAccount instanceof Account).toBeTruthy()
   })
 
-  it('should find account by email', async () => {
+  it('should find Account instance by email', async () => {
     const accountAttributes = generateUniqueAccountAttributes()
 
     const account = new Account(accountAttributes)
@@ -54,6 +55,7 @@ describe('Account repository tests', () => {
     const findedAccount = await accountRepository.findOneByEmail(account.email)
 
     expect(account.username).toBe(findedAccount.username)
+    expect(findedAccount instanceof Account).toBeTruthy()
   })
 
   it('should find account by username', async () => {
@@ -64,5 +66,6 @@ describe('Account repository tests', () => {
     const findedAccount = await accountRepository.findOneByUsername(account.username)
 
     expect(account.email).toBe(findedAccount.email)
+    expect(findedAccount instanceof Account).toBeTruthy()
   })
 })

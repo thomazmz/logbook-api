@@ -28,7 +28,7 @@ describe('Account repository tests', () => {
     expect(permission.id != null).toBeTruthy()
   })
 
-  it('should find permission by name', async () => {
+  it('should find Permission entity by name', async () => {
     // Given 
     const name = `somePermission_${uuid()}`
     const permission = new Permission({ name })
@@ -38,6 +38,7 @@ describe('Account repository tests', () => {
     // Then
     expect(permission.id).toBe(findedPermission.id)
     expect(permission.name).toBe(findedPermission.name)
+    expect(findedPermission instanceof Permission).toBeTruthy()
   })
   
   it('should find or create permission', async () => {
@@ -60,8 +61,10 @@ describe('Account repository tests', () => {
     // Then
     expect(permissions[0].id).toBe(findedPermissions[0].id)
     expect(permissions[0].name).toBe(findedPermissions[0].name)
+    expect(permissions[0] instanceof Permission).toBeTruthy()
     expect(permissions[1].id).toBe(findedPermissions[1].id)
     expect(permissions[1].name).toBe(findedPermissions[1].name)
+    expect(permissions[1] instanceof Permission).toBeTruthy()
   })
 
   it('should find or create many permissions', async () => {

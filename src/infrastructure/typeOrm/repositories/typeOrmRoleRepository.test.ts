@@ -18,7 +18,7 @@ describe('Account repository tests', () => {
     await databaseConnection.close()
   })
 
-  it('should find role by name', async () => {
+  it('should find Role entity by name', async () => {
     // Given 
     const name = `someRole_${uuid()}`
     const role = new Role({ name })
@@ -28,5 +28,6 @@ describe('Account repository tests', () => {
     // Then
     expect(role.id).toBe(findedRole.id)
     expect(role.name).toBe(findedRole.name)
+    expect(role instanceof Role).toBeTruthy()
   })
 })
