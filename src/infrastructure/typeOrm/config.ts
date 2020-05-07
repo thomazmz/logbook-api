@@ -1,5 +1,9 @@
 const environment = process.env.NODE_ENV
 
+const entitiesDir = "src/infrastructure/typeorm/schemas"
+const migrationsDir = "src/infrastructure/typeorm/migrations"
+const subscribersDir = "src/infrastructure/typeorm/subscribers"
+
 const connectionOptions = {
   development : {
     type: "postgres",
@@ -10,13 +14,13 @@ const connectionOptions = {
     database: "logbook",
     migrationsRun: false,
     logging: false,
-    entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
-    migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
-    subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],
+    entities: [`${entitiesDir}/**/*.ts`],
+    migrations: [`${migrationsDir}/**/*.ts`],
+    subscribers: [`${subscribersDir}/**/*.ts`],
     cli: {
-      entitiesDir: "src/infrastructure/typeorm/schemas",
-      migrationsDir: "src/infrastructure/typeorm/migrations",
-      subscribersDir: "src/infrastructure/typeorm/subscribers"
+      entitiesDir,
+      migrationsDir,
+      subscribersDir,
     }
   },
   test : {
@@ -28,13 +32,13 @@ const connectionOptions = {
     database: "logbook-test",
     migrationsRun: false,
     logging: false,
-    entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
-    migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
-    subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],
+    entities: [`${entitiesDir}/**/*.ts`],
+    migrations: [`${migrationsDir}/**/*.ts`],
+    subscribers: [`${subscribersDir}/**/*.ts`],
     cli: {
-      entitiesDir: "src/infrastructure/typeorm/schemas",
-      migrationsDir: "src/infrastructure/typeorm/migrations",
-      subscribersDir: "src/infrastructure/typeorm/subscribers"
+      entitiesDir,
+      migrationsDir,
+      subscribersDir,
     }
   },
   production : {
@@ -46,13 +50,13 @@ const connectionOptions = {
     database: process.env.POSTGRES_DATABASE,
     migrationsRun: true,
     logging: false,
-    entities: ["src/infrastructure/typeorm/schemas/**/*.ts"],
-    migrations: ["src/infrastructure/typeorm/migrations/**/*.ts"],
-    subscribers: ["src/infrastructure/typeorm/subscribers/**/*.ts"],
+    entities: [`${entitiesDir}/**/*.ts`],
+    migrations: [`${migrationsDir}/**/*.ts`],
+    subscribers: [`${subscribersDir}/**/*.ts`],
     cli: {
-      entitiesDir: "src/infrastructure/typeorm/schemas",
-      migrationsDir: "src/infrastructure/typeorm/migrations",
-      subscribersDir: "src/infrastructure/typeorm/subscribers"
+      entitiesDir,
+      migrationsDir,
+      subscribersDir,
     }
   }
 }
