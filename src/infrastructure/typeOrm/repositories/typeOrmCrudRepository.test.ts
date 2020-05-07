@@ -19,9 +19,7 @@ describe('TypeOrmCrudRepository tests', () => {
   })
   
   @EntityRepository(TestResourceSchema)
-  class TypeOrmTestResourceRepository extends TypeOrmCrudRepository<TestResource, string> {
-    // In production code the TestResourceSchemaRepository specific methods and properties would be implemented here.
-  }
+  class TypeOrmTestResourceRepository extends TypeOrmCrudRepository<TestResource, string> {}
 
   let databaseConnection: Connection
   let queryRunner: QueryRunner

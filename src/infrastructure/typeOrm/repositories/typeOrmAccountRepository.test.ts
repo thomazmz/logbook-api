@@ -1,4 +1,4 @@
-import { getCustomRepository } from 'typeorm'
+import { getCustomRepository, Connection } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { TypeOrmAccountRepository } from './typeOrmAccountRepository'
 import { Account } from '../../../domain'
@@ -14,16 +14,16 @@ function generateUniqueAccountAttributes() {
 
 describe('Account repository tests', () => {
 
-  let disconectDatabase: Function
+  let databaseConnection: Connection
   let accountRepository: TypeOrmAccountRepository
 
   beforeAll(async () => {
-    disconectDatabase = await setUpDatabase()
+    databaseConnection = await setUpDatabase()
     accountRepository = getCustomRepository(TypeOrmAccountRepository)
   })
 
   afterAll(async () => {
-    await disconectDatabase()
+    await databaseConnection.close()
   })
   
   it('should create account with id attribute', async () => {

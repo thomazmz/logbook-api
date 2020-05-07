@@ -1,18 +1,11 @@
-import { EntityRepository, AbstractRepository } from 'typeorm'
+import { EntityRepository } from 'typeorm'
 import { Permission } from '../../../domain/permission/permission'
 import { PermissionRepository } from '../../../domain/permission/permissionRepository'
 import { PermissionSchema } from '../schemas/permissionSchema'
+import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 
 @EntityRepository(PermissionSchema)
-export class TypeOrmPermissionRepository extends AbstractRepository<Permission> implements PermissionRepository {
-
-  save(permission: Permission): Promise<Permission> {
-    return this.repository.save(permission)
-  }
-
-  findAll(): Promise<Permission[]> {
-    return this.repository.find()
-  }
+export class TypeOrmPermissionRepository extends TypeOrmCrudRepository<Permission, Number> implements PermissionRepository {
 
   findByName(name: string): Promise<Permission> {
     return this.repository.findOne({where: { name }})

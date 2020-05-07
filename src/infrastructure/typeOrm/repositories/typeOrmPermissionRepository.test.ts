@@ -1,4 +1,4 @@
-import { getCustomRepository } from 'typeorm'
+import { getCustomRepository, Connection} from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '../initializer'
 import { TypeOrmPermissionRepository } from './typeOrmPermissionRepository'
@@ -6,16 +6,16 @@ import { Permission } from '../../../domain'
 
 describe('Account repository tests', () => {
 
-  let disconectDatabase: Function
+  let databaseConnection: Connection
   let permissionRepository: TypeOrmPermissionRepository
 
   beforeAll(async () => {
-    disconectDatabase = await setUpDatabase()
+    databaseConnection = await setUpDatabase()
     permissionRepository = getCustomRepository(TypeOrmPermissionRepository)
   })
 
   afterAll(async () => {
-    await disconectDatabase()
+    await databaseConnection.close()
   })
 
   it('should assign id when saving new permission', async () => {
