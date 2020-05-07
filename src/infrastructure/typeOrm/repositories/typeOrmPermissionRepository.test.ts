@@ -66,20 +66,7 @@ describe('Account repository tests', () => {
     expect(permissions[1].name).toBe(findedPermissions[1].name)
     expect(permissions[1] instanceof Permission).toBeTruthy()
   })
-
-  it('should find or create many permissions', async () => {
-    // Given
-    const names = [ `someValidPermission_${uuid()}`, `anotherValidPermission_${uuid()}` ]
-    // When
-    const permissions = await permissionRepository.findOrCreateMany(names.map(name => ({ name })))
-    const findedPermissions = await Promise.all(names.map(name => permissionRepository.findByName(name)))
-    // Then
-    expect(permissions[0].id).toBe(findedPermissions[0].id)
-    expect(permissions[0].name).toBe(findedPermissions[0].name)
-    expect(permissions[1].id).toBe(findedPermissions[1].id)
-    expect(permissions[1].name).toBe(findedPermissions[1].name)
-  })
-
+  
   it('should delete permission by permission name', async () => {
     // Given
     const name = `someValidPermission_${uuid()}`
