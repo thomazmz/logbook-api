@@ -1,8 +1,9 @@
 import { EntitySchema } from "typeorm";
-import { Account } from '../../../domain'
+import { Account, Role } from '../../../domain'
 
 export const AccountSchema = new EntitySchema<Account>({
-  name: 'account',
+  target: Account,
+  name: Account.name,
   columns: {
     id: {
       name: 'id',
@@ -28,7 +29,7 @@ export const AccountSchema = new EntitySchema<Account>({
   relations: {
     roles: {
         type: 'many-to-many',
-        target: 'role',
+        target: Role.name,
         joinTable: {
           name: 'roles_by_accounts',
         }

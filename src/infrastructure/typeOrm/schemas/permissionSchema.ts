@@ -1,8 +1,9 @@
 import { EntitySchema } from "typeorm";
-import { Permission } from '../../../domain'
+import { Permission, Role } from '../../../domain'
 
 export const PermissionSchema = new EntitySchema<Permission>({
-  name: 'permission',
+  target: Permission,
+  name: Permission.name,
   columns: {
     id: {
       type: Number,
@@ -17,7 +18,7 @@ export const PermissionSchema = new EntitySchema<Permission>({
   relations: {
     roles: {
       type: 'many-to-many',
-      target: 'role'
+      target: Role.name
     }
   }
 })
