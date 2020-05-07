@@ -10,6 +10,6 @@ import { PermissionRepository } from "../../domain/permission/permissionReposito
 import { RoleRepository } from "../../domain/role/roleRepository";
 
 export { init as setUpDatabase } from './initializer'
-export const typeOrmAccountRepositoryFactory = (): AccountRepository => getCustomRepository(TypeOrmAccountRepository)
-export const typeOrmPermissionRepositoryFactory = (): PermissionRepository => getCustomRepository(TypeOrmPermissionRepository)
-export const typeOrmRoleRepositoryFactory = (): RoleRepository => getCustomRepository(TypeOrmRoleRepository)
+export const typeOrmAccountRepositoryFactory = (): AccountRepository => getCustomRepository<AccountRepository>(TypeOrmAccountRepository)
+export const typeOrmPermissionRepositoryFactory = (): PermissionRepository => getCustomRepository<PermissionRepository>(TypeOrmPermissionRepository)
+export const typeOrmRoleRepositoryFactory = (): RoleRepository => getCustomRepository<RoleRepository>(TypeOrmRoleRepository)
