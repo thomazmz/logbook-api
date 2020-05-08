@@ -5,7 +5,7 @@ import { PermissionSchema } from '../schemas/permissionSchema'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 
 @EntityRepository(PermissionSchema)
-export class TypeOrmPermissionRepository extends TypeOrmCrudRepository<Permission, Number> implements PermissionRepository {
+export class TypeOrmPermissionRepository extends TypeOrmCrudRepository<Permission, number> implements PermissionRepository {
 
   findByName(name: string): Promise<Permission> {
     return this.repository.findOne({where: { name }})
