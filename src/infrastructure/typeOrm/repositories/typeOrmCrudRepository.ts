@@ -1,6 +1,7 @@
 import { AbstractRepository } from "typeorm"
+import { CrudRepository } from "../../../domain";
 
-export abstract class TypeOrmCrudRepository<T, ID> extends AbstractRepository<T> {
+export abstract class TypeOrmCrudRepository<T, ID> extends AbstractRepository<T> implements CrudRepository<T, ID> {
 
   save(t:T): Promise<T> {
     return this.repository.save(t)
