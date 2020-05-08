@@ -1,9 +1,10 @@
 import { SnakeCaseNamingStrategy } from "./strategies/snakeCaseNamingStrategy";
-import { createConnection } from 'typeorm'
-import connectionOptions from './config'
+import { createConnection, ConnectionOptions } from 'typeorm'
+import config from './config'
 
-export async function init() {
-  connectionOptions.namingStrategy = new SnakeCaseNamingStrategy()
+export async function init(optionalConfig: Partial<ConnectionOptions> = {}) {
+  config.namingStrategy = new SnakeCaseNamingStrategy()
+  const connectionOptions = Object.assign( config, optionalConfig)
   const connection = await createConnection(connectionOptions)
-  return () => connection.close()
+  return connection;
 }
