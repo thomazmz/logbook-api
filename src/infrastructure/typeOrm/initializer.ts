@@ -1,4 +1,4 @@
-import { SnakeCaseNamingStrategy } from "./strategies/snakeCaseNamingStrategy";
+import { SnakeCaseNamingStrategy } from './strategies/snakeCaseNamingStrategy';
 import { createConnection, ConnectionOptions } from 'typeorm'
 import config from './config'
 

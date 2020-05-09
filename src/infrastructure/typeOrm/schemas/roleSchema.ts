@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from 'typeorm';
 import { Role, Account, Permission } from '../../../domain'
 
 export const RoleSchema = new EntitySchema<Role>({
