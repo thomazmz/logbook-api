@@ -1,11 +1,21 @@
-
 import express from 'express'
 import bodyParser from 'body-parser'
 import { createContainer, asFunction, InjectionMode } from 'awilix'
+
+// Account
 import { accountRouterFactory } from './account/accountRouter'
 import { accountControllerFactory } from './account/accountController'
 import { accountRepositoryFactory } from '../infrastructure'
 import { accountServiceFactory } from '../domain'
+
+// Role
+import { roleRouterFactory } from './role/roleRouter'
+import { roleControllerFactory } from './role/roleController'
+import { roleRepositoryFactory } from '../infrastructure'
+import { roleServiceFactory } from '../domain'
+
+// Permission
+import { permissionRepositoryFactory } from '../infrastructure'
 
 export async function init(port: Number = 4040) {
 
@@ -18,14 +28,21 @@ export async function init(port: Number = 4040) {
     accountRepository: asFunction(accountRepositoryFactory),
     accountService: asFunction(accountServiceFactory),
     accountController: asFunction(accountControllerFactory),
-    accountRouter: asFunction(accountRouterFactory)
+    accountRouter: asFunction(accountRouterFactory),
+    roleRepository: asFunction(roleRepositoryFactory),
+    roleService: asFunction(roleServiceFactory),
+    roleController: asFunction(roleControllerFactory),
+    roleRouter: asFunction(roleRouterFactory),
+    permissionRepository: asFunction(permissionRepositoryFactory)
   })
 
   // Setup api router
   const apiRouter = express.Router()
   apiRouter.use(bodyParser.json())
 
-  apiRouter.use('/accounts', container.resolve('accountRouter'))
+  // apiRouter.use('/accounts', container.resolve('accountRouter'))
+  // apiRouter.use('/roles', container.resolve('roleRouter'))
+  apiRouter.use('/permissions', container.resolve('permissions'))
 
   // Setup application router
   const applicationRouter = express.Router()
@@ -39,49 +56,3 @@ export async function init(port: Number = 4040) {
     console.log(`Application successfully listen on port ${port}`)
   })
 }
-
-
-// application.use(bodyParser.json());
-
-// application.get('/', async (req: Request, res: Response) => {
-//   res.status(200).send('Hello World!')
-// })
-
-// application.get('/accounts/:id', async (req:Request, res: Response) => {
-//   accountService.findById(parseInt(req.params.id))
-//     .then(account => res.status(200).send(account))
-//     .catch(err => res.status(500).send(err))
-// })
-
-// application.post('/accounts', async (req: Request, res: Response) => {
-//   const { email, username, passwordLiteral } = req.body
-//   accountService.create(email, username, passwordLiteral)
-//     .then(account => res.status(200).send(account))
-//     .catch(err => res.status(500).send(err))
-// })
-
-// application.get('/accounts', async (req: Request, res: Response) => {
-//   const accounts: Account[] = await accountRepository.find({ relations: ["roles"] })
-//   res.status(200).send(accounts)
-// })
-
-// application.delete('/accounts/:id', async (req: Request, res: Response) => {
-//   const account: Account = await accountRepository.findOne({ where: { id: req.params.id } })
-//   await accountRepository.remove(account)
-//   res.status(204).send()
-// })
-
-// application.post('/accounts', async (req: Request, res: Response) => {
-//   const { username, email, passwordLiteral } = req.body
-
-//   const role: Role  = new Role('Admin')
-//   roleRepository.save(role)
-
-//   const account: Account = new Account(email, username)
-//   account.setPasswordHash(passwordLiteral)
-//   account.roles = [ role ]
-//   await accountRepository.save(account);
-  
-//   res.status(200).send(account)
-// })
-
