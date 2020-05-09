@@ -1,4 +1,4 @@
-import { EntityRepository } from 'typeorm'
+import { EntityRepository, getCustomRepository } from 'typeorm'
 import { Permission } from '../../../domain/permission/permission'
 import { PermissionRepository } from '../../../domain/permission/permissionRepository'
 import { PermissionSchema } from '../schemas/permissionSchema'
@@ -24,4 +24,8 @@ export class TypeOrmPermissionRepository extends TypeOrmCrudRepository<Permissio
     await this.repository.findOne({ where: { name }})
       .then(permission => this.repository.delete(permission))
   }
+}
+
+export const typeOrmPermissionRepositoryFactory = (): PermissionRepository => {
+  return getCustomRepository(TypeOrmPermissionRepository)
 }

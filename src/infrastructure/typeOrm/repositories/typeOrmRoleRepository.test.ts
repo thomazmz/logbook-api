@@ -1,17 +1,17 @@
-import { getCustomRepository, Connection} from 'typeorm'
+import { Connection} from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '../initializer'
-import { TypeOrmRoleRepository } from './typeOrmRoleRepository'
-import { Role } from '../../../domain'
+import { typeOrmRoleRepositoryFactory } from './typeOrmRoleRepository'
+import { Role, RoleRepository } from '../../../domain'
 
 describe('Account repository tests', () => {
 
   let databaseConnection: Connection
-  let roleRepository: TypeOrmRoleRepository
+  let roleRepository: RoleRepository
 
   beforeAll(async () => {
     databaseConnection = await setUpDatabase()
-    roleRepository = getCustomRepository(TypeOrmRoleRepository)
+    roleRepository = typeOrmRoleRepositoryFactory()
   })
 
   afterAll(async () => {

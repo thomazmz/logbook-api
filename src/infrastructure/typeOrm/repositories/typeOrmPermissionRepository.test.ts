@@ -1,17 +1,17 @@
-import { getCustomRepository, Connection} from 'typeorm'
+import { Connection} from 'typeorm'
 import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '../initializer'
-import { TypeOrmPermissionRepository } from './typeOrmPermissionRepository'
-import { Permission } from '../../../domain'
+import { typeOrmPermissionRepositoryFactory } from './typeOrmPermissionRepository'
+import { Permission, PermissionRepository } from '../../../domain'
 
 describe('Account repository tests', () => {
 
   let databaseConnection: Connection
-  let permissionRepository: TypeOrmPermissionRepository
+  let permissionRepository: PermissionRepository
 
   beforeAll(async () => {
     databaseConnection = await setUpDatabase()
-    permissionRepository = getCustomRepository(TypeOrmPermissionRepository)
+    permissionRepository = typeOrmPermissionRepositoryFactory()
   })
 
   afterAll(async () => {

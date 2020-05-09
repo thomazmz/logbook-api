@@ -1,4 +1,4 @@
-import { EntityRepository, AbstractRepository } from 'typeorm'
+import { EntityRepository, getCustomRepository } from 'typeorm'
 import { Account, AccountRepository } from '../../../domain'
 import { AccountSchema } from '../schemas/accountSchema'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
@@ -17,4 +17,8 @@ export class TypeOrmAccountRepository extends TypeOrmCrudRepository<Account, num
   findOneByUsername(username: string): Promise<Account> {
     return this.repository.findOne({ where: { username }, relations: [ 'roles' ]})
   }
+}
+
+export const typeOrmAccountRepositoryFactory = (): AccountRepository => {
+  return getCustomRepository<AccountRepository>(TypeOrmAccountRepository)
 }

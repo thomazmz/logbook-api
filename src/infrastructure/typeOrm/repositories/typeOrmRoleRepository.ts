@@ -1,4 +1,4 @@
-import { EntityRepository, AbstractRepository } from 'typeorm'
+import { EntityRepository, getCustomRepository } from 'typeorm'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 import { Role } from '../../../domain/role/role'
 import { RoleRepository } from '../../../domain/role/roleRepository'
@@ -10,4 +10,8 @@ export class TypeOrmRoleRepository extends TypeOrmCrudRepository<Role, number> i
   findByName(name: string): Promise<Role> {
     return this.repository.findOne( {where: { name }})
   }
+}
+
+export const typeOrmRoleRepositoryFactory = (): RoleRepository => {
+  return getCustomRepository(TypeOrmRoleRepository)
 }
