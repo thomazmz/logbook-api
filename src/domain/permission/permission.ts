@@ -3,9 +3,9 @@ import { Role } from '../role/role'
 export class Permission {
 
   id: number
-
-  name: string
   
+  name: string
+
   roles: Role[]
 
   constructor(attributes: Partial<Permission>) {

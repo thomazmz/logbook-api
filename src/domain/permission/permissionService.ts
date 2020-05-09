@@ -1,18 +1,26 @@
 import { PermissionRepository } from './permissionRepository'
 import { Permission } from './permission'
 
-export type PermissionService = { 
-  create(name:string): Promise<Permission>
+export const permissionNames = Object.freeze([
+  'readPermissions',
+  'readRoles'
+])
+
+export type PermissionService = {
+  findAll(): Promise<Permission[]>
+  findByName(name:string): Promise<Permission>
 }
 
-export const permissionServiceFactory = (permissionRepository: PermissionRepository): PermissionService => ({
-  async create(name:string): Promise<Permission> {
+export const permissionServiceFactory = (
+  permissionRepository: PermissionRepository
+): PermissionService => ({
 
-    const findedByName = await permissionRepository.findByName(name)
-    if(findedByName) throw new Error('Name already in use.');
+  findAll(): Promise<Permission[]> {
+    return permissionRepository.findOrCreateMany(permissionNames.map(name => ({ name })))
+  },
 
-    const permission = new Permission({ name })
-    
-    return permissionRepository.save(permission)
+  findByName(name: string): Promise<Permission> {
+    if(!permissionNames.includes(name)) return null
+    return permissionRepository.findOrCreate({ name })
   }
 })

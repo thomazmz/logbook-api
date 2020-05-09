@@ -1,5 +1,5 @@
 import { mock, MockProxy as Mock } from 'jest-mock-extended'
-import { PermissionService, permissionServiceFactory } from './permissionService'
+import { PermissionService, permissionServiceFactory, permissionNames } from './permissionService'
 import { PermissionRepository } from './permissionRepository'
 import { Permission } from './permission'
 
@@ -13,24 +13,35 @@ describe('Permission service tests', () => {
     permissionService = permissionServiceFactory(permissionRepository)
   })
 
-  it('should return created permission', async () => {
+  it('should return all permissions', async () => {
     // Given
-    const name = 'somePermission'
-    const permission = new Permission({ name })
+    const permissions = permissionNames.map(name => new Permission({ name }))
+    permissionRepository.findOrCreateMany.mockResolvedValue(permissions)
     // When
-    permissionRepository.save.mockResolvedValue(permission)
-    const createdPermission = await permissionService.create(name)
+    const findedPermissions = await permissionService.findAll()
     // Then
-    expect(createdPermission).toBe(permission)
+    expect(findedPermissions).toBe(permissions)
   })
 
-  it('should return appropriate error message if email is already in use', async () => {
+  it('should return null if permission name is invlalid', async () => {
     // Given
-    const name = 'somePermission'
-    const permission = new Permission({ name })
+    const name = 'invalidPermissionName'
     // When
-    permissionRepository.findByName.mockResolvedValue(permission)
+    const findedPermission = await permissionService.findByName(name)
     // Then
-    await expect(permissionService.create(name)).rejects.toThrow('Name already in use.')
+    expect(permissionNames.includes(name)).toBeFalsy()
+    expect(findedPermission).toBe(null)
+  })
+
+  it('should retur Permission entity by name', async () => {
+    // Given
+    const name = permissionNames[0]
+    const permission = new Permission({ name })
+    permissionRepository.findOrCreate.mockResolvedValue(permission)
+    // When
+    const findedPermission = await permissionService.findByName(name)
+    // Then
+    expect(findedPermission).toBeInstanceOf(Permission)
+    expect(findedPermission).toBe(permission)
   })
 })
