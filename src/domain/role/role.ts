@@ -4,7 +4,7 @@ import { Permission } from '../permission/permission'
 export class Role {
 
   id: number
-  
+
   name: string
 
   permissions: Permission[]
@@ -14,4 +14,4 @@ export class Role {
   constructor(attributes: Partial<Role>) {
     Object.assign(this, attributes)
   }
-}
+ }
