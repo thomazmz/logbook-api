@@ -23,25 +23,25 @@ describe('Permission service tests', () => {
     expect(findedPermissions).toBe(permissions)
   })
 
-  it('should return null if permission name is invlalid', async () => {
-    // Given
-    const name = 'invalidPermissionName'
-    // When
-    const findedPermission = await permissionService.findByName(name)
-    // Then
-    expect(permissionNames.includes(name)).toBeFalsy()
-    expect(findedPermission).toBe(null)
-  })
+  // it('should return null if permission name is invlalid', async () => {
+  //   // Given
+  //   const name = 'invalidPermissionName'
+  //   // When
+  //   const findedPermission = await permissionService.findByName(name)
+  //   // Then
+  //   expect(permissionNames.includes(name)).toBeFalsy()
+  //   expect(findedPermission).toBe(null)
+  // })
 
-  it('should retur Permission entity by name', async () => {
-    // Given
-    const name = permissionNames[0]
-    const permission = new Permission({ name })
-    permissionRepository.findOrCreate.mockResolvedValue(permission)
-    // When
-    const findedPermission = await permissionService.findByName(name)
-    // Then
-    expect(findedPermission).toBeInstanceOf(Permission)
-    expect(findedPermission).toBe(permission)
-  })
+  // it('should return Permission entity by name', async () => {
+  //   // Given
+  //   const name = permissionNames[0]
+  //   const permission = new Permission({ name })
+  //   permissionRepository.findOrCreate.mockResolvedValue(permission)
+  //   // When
+  //   const findedPermission = await permissionService.findByName(name)
+  //   // Then
+  //   expect(findedPermission).toBeInstanceOf(Permission)
+  //   expect(findedPermission).toBe(permission)
+  // })
 })

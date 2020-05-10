@@ -8,7 +8,8 @@ export const permissionNames = Object.freeze([
 
 export type PermissionService = {
   findAll(): Promise<Permission[]>
-  findByName(name:string): Promise<Permission>
+  // findByName(name:string): Promise<Permission>
+  // findByNames(names: string[]): Promise<Permission[]>
 }
 
 export const permissionServiceFactory = (
@@ -19,8 +20,12 @@ export const permissionServiceFactory = (
     return permissionRepository.findOrCreateMany(permissionNames.map(name => ({ name })))
   },
 
-  findByName(name: string): Promise<Permission> {
-    if(!permissionNames.includes(name)) return null
-    return permissionRepository.findOrCreate({ name })
-  }
+  // findByName(name: string): Promise<Permission> {
+  //   if(!permissionNames.includes(name)) return null
+  //   return permissionRepository.findOrCreate({ name })
+  // },
+  
+  // findByNames(names: string[]): Promise<Permission[]> {
+  //   return Promise.all(names.map(name => this.findByName(name)))
+  // }
 })
