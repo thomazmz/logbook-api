@@ -8,4 +8,6 @@ export { PermissionService, permissionServiceFactory } from './permission/permis
 
 export { Role } from './role/role'
 export { RoleRepository } from './role/roleRepository'
-export { RoleService } from './role/roleService'
+export { RoleService, roleServiceFactory } from './role/roleService'
+
+export { CrudRepository } from './crudRepository'
