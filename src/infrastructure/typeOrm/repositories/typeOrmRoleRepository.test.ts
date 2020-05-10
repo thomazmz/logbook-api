@@ -4,7 +4,7 @@ import { init as setUpDatabase } from '../initializer'
 import { typeOrmRoleRepositoryFactory } from './typeOrmRoleRepository'
 import { Role, RoleRepository } from '../../../domain'
 
-describe('Account repository tests', () => {
+describe('TypeOrmRoleRepository tests', () => {
 
   let databaseConnection: Connection
   let roleRepository: RoleRepository

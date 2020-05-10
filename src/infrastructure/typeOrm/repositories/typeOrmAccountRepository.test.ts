@@ -12,7 +12,7 @@ function generateUniqueAccountAttributes() {
   }
 }
 
-describe('Account repository tests', () => {
+describe('TypeOrmAccountRepository tests', () => {
 
   let databaseConnection: Connection
   let accountRepository: AccountRepository

@@ -4,7 +4,7 @@ import { init as setUpDatabase } from '../initializer'
 import { typeOrmPermissionRepositoryFactory } from './typeOrmPermissionRepository'
 import { Permission, PermissionRepository } from '../../../domain'
 
-describe('Permission repository tests', () => {
+describe('TypeOrmPermissionRepository tests', () => {
 
   let databaseConnection: Connection
   let permissionRepository: PermissionRepository
