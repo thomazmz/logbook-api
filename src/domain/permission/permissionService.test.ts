@@ -64,26 +64,41 @@ describe('Permission service tests', () => {
     expect(findedPermission).toEqual(permission)
   })
 
+  test('permissionService.findByNames should throw Error if any of the names is invalid', async () => {
+    // Given
+    const names = [ 'someInvalidPermission' ]
+    // When
+    const permissionPromise = permissionService.findByNames(names)
+    // Then
+    expect(permissionPromise).rejects.toThrow(Error)
+  })
 
-  // it('should return null if permission name is invlalid', async () => {
-  //   // Given
-  //   const name = 'invalidPermissionName'
-  //   // When
-  //   const findedPermission = await permissionService.findByName(name)
-  //   // Then
-  //   expect(permissionNames.includes(name)).toBeFalsy()
-  //   expect(findedPermission).toBe(null)
-  // })
+  test('permissionService.findByNames should return Permission entities', async () => {
+    // Given
+    const names = [ 'someValidPermissionName', 'anotherValidPermissionName' ]
+    const permissions = names.map((name, index) => new Permission({ id: index+1, name }))
+    // When mocking
+    permissionRepository.findOrCreate
+      .mockResolvedValueOnce(permissions[0])
+      .mockResolvedValueOnce(permissions[1])
+    // And calling
+    const findedPermissions = await permissionService.findByNames(names)
+    // Then
+    expect(findedPermissions[0]).toBeInstanceOf(Permission)
+    expect(findedPermissions[1]).toBeInstanceOf(Permission)
+  })
 
-  // it('should return Permission entity by name', async () => {
-  //   // Given
-  //   const name = permissionNames[0]
-  //   const permission = new Permission({ name })
-  //   permissionRepository.findOrCreate.mockResolvedValue(permission)
-  //   // When
-  //   const findedPermission = await permissionService.findByName(name)
-  //   // Then
-  //   expect(findedPermission).toBeInstanceOf(Permission)
-  //   expect(findedPermission).toBe(permission)
-  // })
+  test('permissionService.findByNames should return expecrted Permission entities', async () => {
+    // Given
+    const names = [ 'someValidPermissionName', 'anotherValidPermissionName' ]
+    const permissions = names.map((name, index) => new Permission({ id: index+1, name }))
+    // When mocking
+    permissionRepository.findOrCreate
+      .mockResolvedValueOnce(permissions[0])
+      .mockResolvedValueOnce(permissions[1])
+    // And calling
+    const findedPermissions = await permissionService.findByNames(names)
+    // Then
+    expect(findedPermissions).toEqual(permissions)
+  })
 })

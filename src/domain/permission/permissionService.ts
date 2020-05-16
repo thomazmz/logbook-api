@@ -9,7 +9,7 @@ export const permissionNames = () => [
 export type PermissionService = {
   findAll(): Promise<Permission[]>
   findByName(name:string): Promise<Permission>
-  // findByNames(names: string[]): Promise<Permission[]>
+  findByNames(names: string[]): Promise<Permission[]>
 }
 
 export const permissionServiceFactory = (
@@ -26,7 +26,7 @@ export const permissionServiceFactory = (
     return permissionRepository.findOrCreate({ name })
   },
   
-  // findByNames(names: string[]): Promise<Permission[]> {
-  //   return Promise.all(names.map(name => this.findByName(name)))
-  // }
+  async findByNames(names: string[]): Promise<Permission[]> {
+    return Promise.all(names.map(name => this.findByName(name)))
+  }
 })
