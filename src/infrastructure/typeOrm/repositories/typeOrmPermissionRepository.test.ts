@@ -18,7 +18,7 @@ describe('TypeOrmPermissionRepository tests', () => {
     await databaseConnection.close()
   })
 
-  it('should find or create permission', async () => {
+  test('typeOrmPermissionRepository.findOrCreate should find or create Permission entity', async () => {
     // Given
     const name = `validPermission_${uuid()}`
     
@@ -31,28 +31,39 @@ describe('TypeOrmPermissionRepository tests', () => {
       .getOne()
     
     // Then
-    expect(findedPermission.id).toBe(permission.id)
-    expect(findedPermission.name).toBe(permission.name)
+    expect(permission).toBeInstanceOf(Permission)
+    expect(permission.id).toBe(findedPermission.id)
+    expect(permission.name).toBe(findedPermission.name)
   })
 
-  it('should find or create many permissions', async () => {
-    // Given
-    const names = [ `someValidPermission_${uuid()}`, `anotherValidPermission_${uuid()}` ]
+  test('typeOrmPermissionRepository.findOrCreateMany should find or create many Permission entities', async () => {
+    // Given a array with two valid permissioin names
+    const names = [ `someValidPermission_${uuid()}`, `someValidPermission_${uuid()}` ]
     
-    // When
+    // When calling findOrCreateMany with the array as parameter
     const permissions = await permissionRepository.findOrCreateMany(names.map(name => ({ name })))
+    
+    // Then all values returned by findOrCreateMany should be of type Permission
+    expect(permissions[0]).toBeInstanceOf(Permission)
+    expect(permissions[1]).toBeInstanceOf(Permission)
+  })
+
+  test('typeOrmPermissionRepository.findOrCreateMany should find or create many Permission entities', async () => {
+    // Given a list with two valid permissioin names
+    const names = [ `someValidPermission_${uuid()}`, `someValidPermission_${uuid()}` ]
+    
+    // When calling findOrCreateMany with the previous mentioned list as parameter
+    const permissions = await permissionRepository.findOrCreateMany(names.map(name => ({ name })))
+    
+    // And performing a T query for all the permissions whose names are on the list
     const findedPermissions = await databaseConnection.createQueryBuilder()
       .select('permission')
       .from(Permission, 'permission')
       .where('permission.name IN (:...names)', { names })
       .getMany()
-    
-    // Then
-    expect(permissions[0].id).toBe(findedPermissions[0].id)
-    expect(permissions[0].name).toBe(findedPermissions[0].name)
-    expect(permissions[0] instanceof Permission).toBeTruthy()
-    expect(permissions[1].id).toBe(findedPermissions[1].id)
-    expect(permissions[1].name).toBe(findedPermissions[1].name)
-    expect(permissions[1] instanceof Permission).toBeTruthy()
+
+    // Then all the values returned by findOrCreate many should be equal to the values returned by the query
+    expect(permissions[0]).toEqual(findedPermissions[0])
+    expect(permissions[1]).toEqual(findedPermissions[1])
   })
 })
