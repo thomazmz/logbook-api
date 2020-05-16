@@ -3,7 +3,7 @@ import { PermissionService, permissionServiceFactory } from './permissionService
 import { PermissionRepository } from './permissionRepository'
 import { Permission } from './permission'
 
-describe('Permission service tests', () => {
+describe('permissionService tests', () => {
 
   let permissionService: PermissionService
   
@@ -19,7 +19,7 @@ describe('Permission service tests', () => {
     permissionService = permissionServiceFactory(permissionNames, permissionRepository)
   })
 
-  test('permissionService.findOrCreateMany should return all permissions', async () => {
+  test('findAll should return all permissions', async () => {
     // Given
     const permissions = permissionNames.map(name => new Permission({ name }))
     // When mocking
@@ -30,16 +30,34 @@ describe('Permission service tests', () => {
     expect(findedPermissions).toBe(permissions)
   })
 
-  test('permissionService.findByName should throw Error when name is considered invalid', async () => {
+  test('findByName should throw Error when name is considered invalid', async () => {
     // Given
-    const name = 'invalidPermission'
+    const name = 'invalidPermissionName'
     // When
+    const permissionPromise = permissionService.findByName(name)
+    // Then
+    expect(permissionPromise).rejects.toThrow(Error)
+  })  
+  
+  test('findByName should throw Error when name parameter is undefined', () => {
+    // Given
+    const name = undefined
+    // When 
     const permissionPromise = permissionService.findByName(name)
     // Then
     expect(permissionPromise).rejects.toThrow(Error)
   })
 
-  test('permissionService.findByName should return Permission entity', async () => {
+  test('findByName should throw Error when name parameter is null', () => {
+    // Given
+    const name = null
+    // When 
+    const permissionPromise = permissionService.findByName(name)
+    // Then
+    expect(permissionPromise).rejects.toThrow(Error)
+  })
+
+  test('findByName should return Permission entity', async () => {
     // Given
     const name = 'someValidPermissionName'
     const permission = new Permission({ name })
@@ -51,7 +69,7 @@ describe('Permission service tests', () => {
     expect(findedPermission).toBeInstanceOf(Permission)
   })
 
-  test('permissionService.findByName should return expected Permission entity', async () => {
+  test('findByName should return expected Permission entity', async () => {
     // Given
     const id = 1 
     const name = 'someValidPermissionName'
@@ -64,7 +82,7 @@ describe('Permission service tests', () => {
     expect(findedPermission).toEqual(permission)
   })
 
-  test('permissionService.findByNames should throw Error if any of the names is invalid', async () => {
+  test('findByNames should throw Error if any of the names is invalid', async () => {
     // Given
     const names = [ 'someInvalidPermission' ]
     // When
@@ -73,7 +91,7 @@ describe('Permission service tests', () => {
     expect(permissionPromise).rejects.toThrow(Error)
   })
 
-  test('permissionService.findByNames should return Permission entities', async () => {
+  test('findByNames should return Permission entities', async () => {
     // Given
     const names = [ 'someValidPermissionName', 'anotherValidPermissionName' ]
     const permissions = names.map((name, index) => new Permission({ id: index+1, name }))
@@ -88,7 +106,7 @@ describe('Permission service tests', () => {
     expect(findedPermissions[1]).toBeInstanceOf(Permission)
   })
 
-  test('permissionService.findByNames should return expecrted Permission entities', async () => {
+  test('findByNames should return expected Permission entities', async () => {
     // Given
     const names = [ 'someValidPermissionName', 'anotherValidPermissionName' ]
     const permissions = names.map((name, index) => new Permission({ id: index+1, name }))
