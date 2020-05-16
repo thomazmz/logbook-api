@@ -1,5 +1,16 @@
-import { Account } from '../account/account'
-import { Permission } from '../permission/permission'
+import { Account, AccountPartial } from '../account/account'
+import { Permission, PermissionPartial } from '../permission/permission'
+
+export interface RolePartial {
+
+  id?: number,
+
+  name?: string
+
+  permissions?: PermissionPartial[],
+
+  accounts?: AccountPartial[]
+}
 
 export class Role {
 
@@ -11,7 +22,7 @@ export class Role {
 
   accounts: Account[]
 
-  constructor(attributes: Partial<Role>) {
-    Object.assign(this, attributes)
+  constructor(rolePartial: RolePartial) {
+    Object.assign(this, rolePartial)
   }
- }
+}

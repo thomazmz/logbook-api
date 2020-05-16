@@ -1,16 +1,25 @@
 import { sign, verify} from 'jsonwebtoken'
 import { hash, compare } from 'bcrypt';
-import { Role } from '../role/role'
+import { Role, RolePartial } from '../role/role'
 
-export class Account {
+export interface AccountPartial {
+
+  id?: number
+
+  username?: string
+
+  email?: string
+
+  passwordHash?: string
+
+  roles?: RolePartial[];
+}
+
+export class Account implements AccountPartial {
 
   private static JWT_SECRET = 'vc2iX6e%K>47WVH@#8px9qoYRU@Kes}D8uB4pzzpkZp=L[3RX#$JMtMdVbzv'
 
   id: number
-
-  createdAt: Date;
-
-  updatedAt: Date;
 
   username: string
 
@@ -20,8 +29,8 @@ export class Account {
 
   roles: Role[];
 
-  constructor(attributes: Partial<Account>) {
-    Object.assign(this, attributes);
+  constructor(accountPartial: AccountPartial) {
+    Object.assign(this, accountPartial);
   }
 
   async setPasswordHash (passwordLiteral: string): Promise<void> {
