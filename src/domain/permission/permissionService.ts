@@ -6,7 +6,7 @@ export const permissionNames = () => [
   'readRoles'
 ]
 
-export type PermissionService = {
+export interface PermissionService {
   findAll(): Promise<Permission[]>
   findByName(name:string): Promise<Permission>
   findByNames(names: string[]): Promise<Permission[]>
@@ -17,12 +17,12 @@ export const permissionServiceFactory = (
   permissionRepository: PermissionRepository
 ): PermissionService => ({
 
-  findAll(): Promise<Permission[]> {
+  async findAll(): Promise<Permission[]> {
     return permissionRepository.findOrCreateMany(permissionNames.map(name => ({ name })))
   },
 
   async findByName(name: string): Promise<Permission> {
-    if(!permissionNames.includes(name)) throw new Error(`${name} is not a valid Permission name.`)
+    if(!permissionNames.includes(name)) throw Error(`"${name}" is not a valid Permission name.`)
     return permissionRepository.findOrCreate({ name })
   },
   
