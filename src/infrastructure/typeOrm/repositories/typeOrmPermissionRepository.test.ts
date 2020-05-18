@@ -18,7 +18,7 @@ describe('TypeOrmPermissionRepository tests', () => {
     await databaseConnection.close()
   })
 
-  test('typeOrmPermissionRepository.findOrCreate should find or create Permission entity', async () => {
+  test('findOrCreate should create Permission entity', async () => {
     // Given
     const name = `validPermission_${uuid()}`
     
@@ -36,7 +36,35 @@ describe('TypeOrmPermissionRepository tests', () => {
     expect(permission.name).toBe(findedPermission.name)
   })
 
-  test('typeOrmPermissionRepository.findOrCreateMany should find or create many Permission entities', async () => {
+  test('findOrCreate should find Permission entity', async () => {
+    // Given
+    const name = `validPermission_${uuid()}`
+
+    const result = await databaseConnection.createQueryBuilder()
+      .insert()
+      .into(Permission)
+      .values({ name })
+      .returning('*')
+      .execute()
+
+    console.log(result)
+
+    // When
+    const findedPermission = await databaseConnection.createQueryBuilder()
+      .select('permission')
+      .from(Permission, 'permission')
+      .where('permission.name = :name', { name })
+      .getOne()
+
+    const permission = await permissionRepository.findOrCreate({ name })
+
+    // Then
+    expect(permission).toBeInstanceOf(Permission)
+    expect(permission.id).toBe(findedPermission.id)
+    expect(permission.name).toBe(findedPermission.name)
+  })
+
+  test('findOrCreateMany should find or create many Permission entities', async () => {
     // Given a array with two valid permissioin names
     const names = [ `someValidPermission_${uuid()}`, `someValidPermission_${uuid()}` ]
     
@@ -48,7 +76,7 @@ describe('TypeOrmPermissionRepository tests', () => {
     expect(permissions[1]).toBeInstanceOf(Permission)
   })
 
-  test('typeOrmPermissionRepository.findOrCreateMany should find or create many Permission entities', async () => {
+  test('findOrCreateMany should find or create many Permission entities', async () => {
     // Given a list with two valid permissioin names
     const names = [ `someValidPermission_${uuid()}`, `someValidPermission_${uuid()}` ]
     
