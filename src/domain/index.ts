@@ -10,4 +10,8 @@ export { Role } from './role/role'
 export { RoleRepository } from './role/roleRepository'
 export { RoleService, roleServiceFactory } from './role/roleService'
 
+export { DomainError } from './error/domainError'
+export { InvalidEntityIdentifierError } from './error/invalidEntityIdentifierError'
+export { UnavailableEntityIdentifierError } from './error/unavailableEntityIdentifierError'
+
 export { CrudRepository } from './crudRepository'
