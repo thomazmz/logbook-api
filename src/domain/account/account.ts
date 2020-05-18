@@ -1,4 +1,4 @@
-import { sign, verify} from 'jsonwebtoken'
+import { sign as signJwt, verify as verifyJwt } from 'jsonwebtoken'
 import { hash, compare } from 'bcrypt';
 import { Role, RolePartial } from '../role/role'
 
@@ -27,31 +27,36 @@ export class Account implements AccountPartial {
 
   passwordHash: string
 
-  roles: Role[];
-
   constructor(accountPartial: AccountPartial) {
-    Object.assign(this, accountPartial);
+    Object.assign(this, accountPartial)
   }
 
-  async setPasswordHash (passwordLiteral: string): Promise<void> {
-    this.passwordHash = await hash(passwordLiteral, 10)
+  async setPasswordHash (password: string): Promise<void> {
+    this.passwordHash = await hash(password, 10)
   }
 
   async checkPassword(passwordLiteral: string): Promise<boolean> {
-    if(!this.passwordHash) return false;
+    if(!this.passwordHash) return false
     return await compare(passwordLiteral, this.passwordHash)
   }
 
-  async generateJwt() {
+  async generateJwt(): Promise<string> {
     const payload = { id: this.id }
     return new Promise((resolve, reject) => {
-      sign(payload, Account.JWT_SECRET, (error, token) => error ? reject(error) : resolve(token))
+      signJwt(payload, Account.JWT_SECRET, (error, token) => {
+        // TO DO - Understant what kind of errors this function could be returining to hadle it better
+        if(error) throw Error('Invalid payload error')
+        resolve(token)
+      })
     })
   }
 
-  async verifyJwt(token: string) {
+  async verifyJwt(token: string): Promise<AccountPartial> {
     return new Promise((resolve, reject) => {
-      verify(token, Account.JWT_SECRET, (error, decodedToken) => error ? reject(error) : resolve(decodedToken))
+      verifyJwt(token, Account.JWT_SECRET, (error, decodedToken) => {
+        if (error) throw Error('Invalid access token')
+        resolve(decodedToken)
+      })
     })
   }
 }
