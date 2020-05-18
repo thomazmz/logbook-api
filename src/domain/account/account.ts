@@ -3,16 +3,11 @@ import { hash, compare } from 'bcrypt';
 import { Role, RolePartial } from '../role/role'
 
 export interface AccountPartial {
-
   id?: number
-
   username?: string
-
   email?: string
-
   passwordHash?: string
-
-  roles?: RolePartial[];
+  roles?: RolePartial[]
 }
 
 export class Account implements AccountPartial {
@@ -20,12 +15,10 @@ export class Account implements AccountPartial {
   private static JWT_SECRET = 'vc2iX6e%K>47WVH@#8px9qoYRU@Kes}D8uB4pzzpkZp=L[3RX#$JMtMdVbzv'
 
   id: number
-
   username: string
-
   email: string
-
   passwordHash: string
+  roles: Role[]
 
   constructor(accountPartial: AccountPartial) {
     Object.assign(this, accountPartial)

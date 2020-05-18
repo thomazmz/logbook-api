@@ -3,7 +3,7 @@ import { AccountService, accountServiceFactory } from './accountService'
 import { AccountRepository } from './accountRepository'
 import { Account } from './account'
 
-describe('Permission service tests', () => {
+describe('AccountService tests', () => {
 
   let accountService: AccountService
   let accountRepository: Mock<AccountRepository>
