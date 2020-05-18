@@ -81,15 +81,17 @@ describe('TypeOrmPermissionRepository tests', () => {
     // When calling findOrCreateMany with the previous mentioned list as parameter
     const permissions = await permissionRepository.findOrCreateMany(names.map(name => ({ name })))
     
-    // And performing a T query for all the permissions whose names are on the list
+    // And performing a query for all the permissions whose names are on the list
     const findedPermissions = await databaseConnection.createQueryBuilder()
       .select('permission')
       .from(Permission, 'permission')
       .where('permission.name IN (:...names)', { names })
       .getMany()
 
-    // Then all the values returned by findOrCreate many should be equal to the values returned by the query
-    expect(permissions[0]).toEqual(findedPermissions[0])
-    expect(permissions[1]).toEqual(findedPermissions[1])
+    // Then the values returned by the findOrCreateMany should be contained on the values returned by the query
+    expect(permissions.map(p => p.id).includes(findedPermissions[0].id)).toBeTruthy()
+    expect(permissions.map(p => p.id).includes(findedPermissions[1].id)).toBeTruthy()
+    expect(permissions.map(p => p.name).includes(findedPermissions[0].name)).toBeTruthy()
+    expect(permissions.map(p => p.name).includes(findedPermissions[1].name)).toBeTruthy()
   })
 })
