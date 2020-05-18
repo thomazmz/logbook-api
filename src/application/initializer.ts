@@ -13,6 +13,7 @@ import { permissionRouterFactory } from './permission/permissionRouter'
 import { permissionControllerFactory } from './permission/permissionController'
 import { permissionRepositoryFactory } from '../infrastructure'
 import { permissionServiceFactory } from '../domain'
+import { permissionNames } from '../domain/permission/permissionService'
 
 export async function init(port: Number = 4040) {
 
@@ -31,6 +32,7 @@ export async function init(port: Number = 4040) {
     permissionService: asFunction(permissionServiceFactory),
     permissionController: asFunction(permissionControllerFactory),
     permissionRouter: asFunction(permissionRouterFactory),
+    permissionNames: asFunction(permissionNames)
   })
 
   // Setup api router

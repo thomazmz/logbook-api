@@ -42,7 +42,7 @@ describe('Permission service tests', () => {
     const email = 'some@email.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
-    accountRepository.findOneByUsername.mockResolvedValue(mock<Account>())
+    accountRepository.findOneByUsername.mockResolvedValue(createMock<Account>())
     // When/Then
     await expect(accountService.create(email, username, passwordLiteral)).rejects.toThrow('Username already in use.')
   })

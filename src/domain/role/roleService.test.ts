@@ -153,7 +153,7 @@ describe('roleService tests', () => {
       ]
     }
     // When mocking
-    roleRepository.findById.mockResolvedValue(new Role({ }))
+    roleRepository.findById.mockResolvedValue(createMock<Role>())
     permissionService.findByNames.mockRejectedValue(Error('Some Error'))
     // And calling
     const updatedRolePromisse = roleService.updatePermissions(rolePartial)
