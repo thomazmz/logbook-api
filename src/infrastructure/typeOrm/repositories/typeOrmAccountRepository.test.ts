@@ -8,7 +8,7 @@ function generateUniqueAccountAttributes() {
   const identifier = uuid()
   return { 
     username: `username_${identifier}`, 
-    emailAddress: `some@emailaddress.com_${identifier}` 
+    emailAddress: `some@email.com_${identifier}` 
   }
 }
 

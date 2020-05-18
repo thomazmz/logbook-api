@@ -1,3 +1,4 @@
+import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
 import { AccountRepository } from "./accountRepository"
 import { Account } from './account'
 
@@ -11,10 +12,10 @@ export const accountServiceFactory = (accountRepository: AccountRepository): Acc
   async create(emailAddress: string, username: string, passwordLiteral: string): Promise<Account> {
 
     const findedByEmail = await accountRepository.findOneByEmailAddress(emailAddress)
-    if(findedByEmail) throw new Error('Email already in use.');
+    if(findedByEmail) throw new UnavailableEntityIdentifierError(Account.name, 'emailAddress', emailAddress);
 
     const findedByUsername = await accountRepository.findOneByUsername(username)
-    if(findedByUsername) throw new Error('Username already in use.');
+    if(findedByUsername) throw new UnavailableEntityIdentifierError(Account.name, 'username', username);
 
     const account = new Account({ emailAddress, username })
     await account.setPasswordHash(passwordLiteral)

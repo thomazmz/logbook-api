@@ -1,4 +1,5 @@
 import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
+import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
 import { AccountService, accountServiceFactory } from './accountService'
 import { AccountRepository } from './accountRepository'
 import { Account } from './account'
@@ -27,7 +28,7 @@ describe('AccountService tests', () => {
     expect(createdAccount).toBe(account)
   })
 
-  test('create should return appropriate error message if email address is already in use', async () => {
+  test('create should throw UnavailableEntityIdentifier if email address is already in use', async () => {
     // Given
     const emailAddress = 'some@emailAddress.com'
     const username = 'someUsername'
@@ -37,10 +38,10 @@ describe('AccountService tests', () => {
     // When
     const createAccountPromise = accountService.create(emailAddress, username, passwordLiteral)
     // Then
-    await expect(createAccountPromise).rejects.toThrow('Email already in use.')
+    await expect(createAccountPromise).rejects.toThrow(UnavailableEntityIdentifierError)
   })
 
-  test('create should return appropriate error message if username is already in use', async () => {
+  test('create should throw UnavailableEntityIdentifier if username is already in use', async () => {
     // Given
     const emailAddress = 'some@email.com'
     const username = 'someUsername'
@@ -49,7 +50,7 @@ describe('AccountService tests', () => {
     // When
     const createAccountPromise = accountService.create(emailAddress, username, passwordLiteral)
     // Then
-    await expect(createAccountPromise).rejects.toThrow('Username already in use.')
+    await expect(createAccountPromise).rejects.toThrow(UnavailableEntityIdentifierError)
   })
 
   test('findById should return Account entity by id', async () => {
