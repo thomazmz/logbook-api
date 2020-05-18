@@ -1,6 +1,15 @@
+// Idea
 .idea/
+
+// Visual Studio Code
 .vscode/
+
+// MacOS
+**/.DS_Store
+
+// Project
 node_modules/
+coverage/
 build/
 tmp/
 temp/
