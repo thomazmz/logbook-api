@@ -11,8 +11,8 @@ export const AccountSchema = new EntitySchema<Account>({
       primary: true,
       generated: 'increment'
     },
-    email: {
-      name: 'email',
+    emailAddress: {
+      name: 'email_address',
       type: String,
       unique: true
     },

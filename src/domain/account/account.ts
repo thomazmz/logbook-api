@@ -5,7 +5,7 @@ import { Role, RolePartial } from '../role/role'
 export interface AccountPartial {
   id?: number
   username?: string
-  email?: string
+  emailAddress?: string
   passwordHash?: string
   roles?: RolePartial[]
 }
@@ -16,7 +16,7 @@ export class Account implements AccountPartial {
 
   id: number
   username: string
-  email: string
+  emailAddress: string
   passwordHash: string
   roles: Role[]
 

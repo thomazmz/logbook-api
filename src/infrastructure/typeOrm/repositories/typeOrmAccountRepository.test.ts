@@ -8,7 +8,7 @@ function generateUniqueAccountAttributes() {
   const identifier = uuid()
   return { 
     username: `username_${identifier}`, 
-    email: `some@email.com_${identifier}` 
+    emailAddress: `some@emailaddress.com_${identifier}` 
   }
 }
 
@@ -44,18 +44,18 @@ describe('TypeOrmAccountRepository tests', () => {
     // When
     const findedAccount = await accountRepository.findById(account.id)
     // Then
-    expect(account.email).toBe(findedAccount.email)
+    expect(account.emailAddress).toBe(findedAccount.emailAddress)
     expect(account.username).toBe(findedAccount.username)
     expect(findedAccount).toBeInstanceOf(Account)
   })
 
-  test('findOneByEmail should find Account instance by email', async () => {
+  test('findOneByEmailAddress should find Account instance by email address', async () => {
     // Given
     const accountAttributes = generateUniqueAccountAttributes()
     const account = new Account(accountAttributes)
     await accountRepository.save(account)
     // When
-    const findedAccount = await accountRepository.findOneByEmail(account.email)
+    const findedAccount = await accountRepository.findOneByEmailAddress(account.emailAddress)
     // Then
     expect(account.username).toBe(findedAccount.username)
     expect(findedAccount).toBeInstanceOf(Account)
@@ -69,7 +69,7 @@ describe('TypeOrmAccountRepository tests', () => {
     // When
     const findedAccount = await accountRepository.findOneByUsername(account.username)
     // Then
-    expect(account.email).toBe(findedAccount.email)
+    expect(account.emailAddress).toBe(findedAccount.emailAddress)
     expect(findedAccount).toBeInstanceOf(Account)
   })
 })

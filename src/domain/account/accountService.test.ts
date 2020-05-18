@@ -13,52 +13,58 @@ describe('AccountService tests', () => {
     accountService = accountServiceFactory(accountRepository)
   })
 
-  it('should return created account', async () => {
+  test('create should return created Account instance', async () => {
     // Given
-    const email = 'some@email.com'
+    const emailAddress = 'some@emailAddress.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
-    const account = new Account({ email, username })
+    const account = new Account({ emailAddress, username })
     // When
     accountRepository.save.mockResolvedValue(account)
-    const createdAccount = await accountService.create(email, username, passwordLiteral)
+    const createdAccount = await accountService.create(emailAddress, username, passwordLiteral)
     // Then
+    expect(createdAccount).toBeInstanceOf(Account)
     expect(createdAccount).toBe(account)
   })
 
-  it('should return appropriate error message if email is already in use', async () => {
+  test('create should return appropriate error message if email address is already in use', async () => {
     // Given
-    const email = 'some@email.com'
+    const emailAddress = 'some@emailAddress.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
-    const account = new Account({ email, username })
-    accountRepository.findOneByEmail.mockResolvedValue(account)
-    // When/Then
-    await expect(accountService.create(email, username, passwordLiteral)).rejects.toThrow('Email already in use.')
+    const account = new Account({ emailAddress, username })
+    accountRepository.findOneByEmailAddress.mockResolvedValue(account)
+    // When
+    const createAccountPromise = accountService.create(emailAddress, username, passwordLiteral)
+    // Then
+    await expect(createAccountPromise).rejects.toThrow('Email already in use.')
   })
 
-  it('should return appropriate error message if username is already in use', async () => {
+  test('create should return appropriate error message if username is already in use', async () => {
     // Given
-    const email = 'some@email.com'
+    const emailAddress = 'some@email.com'
     const username = 'someUsername'
     const passwordLiteral = '12345'
     accountRepository.findOneByUsername.mockResolvedValue(createMock<Account>())
-    // When/Then
-    await expect(accountService.create(email, username, passwordLiteral)).rejects.toThrow('Username already in use.')
+    // When
+    const createAccountPromise = accountService.create(emailAddress, username, passwordLiteral)
+    // Then
+    await expect(createAccountPromise).rejects.toThrow('Username already in use.')
   })
 
-  it('should return account by id', async () => {
+  test('findById should return Account entity by id', async () => {
     // Given
     const id = 1
-    const email = 'some@email.com'
+    const emailAddress = 'some@emailAddress.com'
     const username = 'someUsername'
-    const account = new Account({ id, email, username })
+    const account = new Account({ id, emailAddress, username })
     accountRepository.findById.calledWith(id).mockResolvedValue(account)
     // When
     const findedAccount = await accountService.findById(id)
     // Then
-    expect(findedAccount.id).toBe(id)
-    expect(findedAccount.email).toBe(email)
+    expect(findedAccount).toBeInstanceOf(Account)
+    expect(findedAccount.emailAddress).toBe(emailAddress)
     expect(findedAccount.username).toBe(username)
+    expect(findedAccount.id).toBe(id)
   })
 })

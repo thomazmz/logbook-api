@@ -6,8 +6,8 @@ import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 @EntityRepository(AccountSchema)
 export class TypeOrmAccountRepository extends TypeOrmCrudRepository<Account, number> implements AccountRepository {
 
-  findOneByEmail(email: string): Promise<Account> {
-    return this.repository.findOne({ where: { email }, relations: [ 'roles' ]})
+  findOneByEmailAddress(emailAddress: string): Promise<Account> {
+    return this.repository.findOne({ where: { emailAddress }, relations: [ 'roles' ]})
   }
 
   findOneByUsername(username: string): Promise<Account> {
