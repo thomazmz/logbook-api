@@ -4,8 +4,6 @@ export type AccountRepository = {
 
   findById(id: number): Promise<Account>
 
-  findByIdWithRoles(id: number): Promise<Account>
-
   findOneByEmail(email: string): Promise<Account>
 
   findOneByUsername(username: string): Promise<Account>
