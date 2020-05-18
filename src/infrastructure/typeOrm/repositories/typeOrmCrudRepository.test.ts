@@ -36,27 +36,27 @@ describe('TypeOrmCrudRepository tests', () => {
     await queryRunner.dropTable('test_resource')
   })
   
-  it('should return object of type TestResource when findById is called', async () => {
+  test('findById should return TestResource entity', async () => {
     // Given
     const testResource = new TestResource()
-    // When
     await testResourceRepository.save(testResource)
-    const findedResource: TestResource = await testResourceRepository.findById(testResource.id)
+    // When
+    const findedTestResource = await testResourceRepository.findById(testResource.id)
     // Then
-    expect(findedResource instanceof TestResource).toBe(true)
+    expect(findedTestResource).toBeInstanceOf(TestResource)
   })
 
-  it('should save and find saved resource by id', async () => {
+  test('findById should find TestResource by id', async () => {
     // Given
     const testResource = new TestResource()
-    // When
     await testResourceRepository.save(testResource)
-    const findedResource: TestResource = await testResourceRepository.findById(testResource.id)
+    // When
+    const findedTestResource = await testResourceRepository.findById(testResource.id)
     // Then
-    expect(findedResource).toEqual(testResource)
+    expect(findedTestResource).toEqual(testResource)
   })
 
-  it('should define values for id, createdAt and updatedAt attributes when save method is called', async () => {
+  test('save should define values for id, createdAt and updatedAt', async () => {
     // Given
     const testResource = new TestResource()
     // When
@@ -67,14 +67,31 @@ describe('TypeOrmCrudRepository tests', () => {
     expect(testResource.updatedAt).not.toEqual(null)
   })
 
-  it('should not be able to find resource by id after deleting it', async () => {
+  test('findAll should return all TestEntities on the database', async () => {
+    // Given that there is no TestResource entity persisted on the database
+    await databaseConnection.createQueryBuilder()
+      .delete()
+      .from(TestResource)
+      .execute()
+    // And I persist two TestResource entities
+    const firstPersistedTestResource = await testResourceRepository.save(new TestResource())
+    const secondPersistedTestResource = await testResourceRepository.save(new TestResource())
+    // When
+    const findedTestResources = await testResourceRepository.findAll()
+    // Then
+    expect(findedTestResources.length).toBe(2)
+    expect(findedTestResources[0].id).toBe(firstPersistedTestResource.id)
+    expect(findedTestResources[1].id).toBe(secondPersistedTestResource.id)
+  })
+
+  test('deleteById should delete reource', async () => {
     // Given
     const testResource = new TestResource()
-    // When
     await testResourceRepository.save(testResource)
+    // When
     await testResourceRepository.deleteById(testResource.id)
-    const findedResource = await testResourceRepository.findById(testResource.id)
+    const findedTestResource = await testResourceRepository.findById(testResource.id)
     // Then
-    expect(findedResource).toEqual(undefined)
+    expect(findedTestResource).toEqual(undefined)
   })
 })
