@@ -1,5 +1,5 @@
 {
-  "name": "logbook-api-ts",
+  "name": "logbook-api-t",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,10 +17,9 @@
     "@types/jsonwebtoken": "^8.3.9",
     "@types/node": "^8.0.29",
     "@types/uuid": "^7.0.2",
-    "jest": "^24.9.0",
-    "ts-jest": "^25.3.1",
-    "ts-node": "3.3.0",
-    "typescript": "3.3.3333"
+    "jest": "^25.0.0",
+    "ts-jest": "^25.5.1",
+    "ts-node": "^8.10.1"
   },
   "dependencies": {
     "awilix": "^4.2.5",
@@ -32,6 +31,7 @@
     "pg": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.24",
+    "typescript": "^3.9.2",
     "uuid": "^7.0.3"
   }
 }
