@@ -47,8 +47,6 @@ describe('TypeOrmPermissionRepository tests', () => {
       .returning('*')
       .execute()
 
-    console.log(result)
-
     // When
     const findedPermission = await databaseConnection.createQueryBuilder()
       .select('permission')
