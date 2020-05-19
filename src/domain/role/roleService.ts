@@ -5,7 +5,9 @@ import { Permission } from '../permission/permission'
 
 export type RoleService = {
   findAll(): Promise<Role[]>
+  create(rolePartial: RolePartial): Promise<Role>
   findById(roleId:number): Promise<Role>
+  update(rolePartial: RolePartial): Promise<Role>
   getPermissions(roleId: number): Promise<Permission[]>
   updatePermissions(role: RolePartial): Promise<Role>
 }
@@ -34,6 +36,15 @@ export const roleServiceFactory = (
     if(!findedRole) throw new Error(`Could not find any Role entity with "id" property equal to ${roleId}.`)
 
     return findedRole
+  },
+
+  async update(rolePartial: RolePartial): Promise<Role> {
+    const { id, name } = rolePartial
+
+    const findedRole = await roleRepository.findById(id)
+    if(name) findedRole.name = name
+
+    return roleRepository.save(findedRole)
   },
 
   async getPermissions(roleId: number): Promise<Permission[]> {

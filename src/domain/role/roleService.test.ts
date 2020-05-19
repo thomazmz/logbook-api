@@ -1,4 +1,4 @@
-import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
+import { mock as createMock, MockProxy as Mock, mockReset } from 'jest-mock-extended'
 import { RoleService, roleServiceFactory } from './roleService'
 import { RoleRepository } from './roleRepository'
 import { PermissionService } from '../permission/permissionService'
@@ -45,7 +45,6 @@ describe('roleService tests', () => {
     expect(createdRole).toBe(savedRole)
   })
 
-  // FIX ME - Triggering Jest UnhandledPromiseRejectionWarning
   test('create method should throw Error if Role name is already in use', async () => {
     // Given
     const name = 'someRole'
@@ -78,6 +77,66 @@ describe('roleService tests', () => {
     roleRepository.findById.calledWith(invalidRoleId).mockResolvedValue(null)
     // Then
     expect(roleService.findById(invalidRoleId)).rejects.toThrow(Error)
+  })
+
+  test('update method should update name', async () => {
+    // Given
+    const role = new Role({ 
+      id: 1,
+      name: 'anotherRoleName '
+    })
+    const rolePartial = {
+      id: 1,
+      name: 'someRoleName'
+    }
+    // When mocking 
+    roleRepository.findById.calledWith(rolePartial.id).mockResolvedValue(role)
+    roleRepository.save.calledWith(Object.assign(role, rolePartial)).mockResolvedValue(role)
+    // And calling
+    const updatedRole = await roleService.update(rolePartial)
+    // Then
+    expect(updatedRole.id).toBe(rolePartial.id)
+    expect(updatedRole.name).toBe(rolePartial.name)
+    
+  })
+
+  test('update method should update name', async () => {
+    // Given
+    const role = new Role({ 
+      id: 1,
+      name: 'anotherRoleName '
+    })
+    const rolePartial = {
+      id: 1,
+      name: 'someRoleName'
+    }
+    // When mocking 
+    roleRepository.findById.calledWith(rolePartial.id).mockResolvedValue(role)
+    roleRepository.save.mockImplementation(r => Promise.resolve(r))
+    // And calling
+    const updatedRole = await roleService.update(rolePartial)
+    // Then
+    expect(updatedRole.id).toBe(rolePartial.id)
+    expect(updatedRole.name).toBe(rolePartial.name)
+  })
+
+  test('update method should have no effect if role partial has no attributes', async () => {
+    // Given
+    const role = new Role({ 
+      id: 1,
+      name: 'anotherRoleName '
+    })
+    const rolePartial = {
+      id: 1
+    }
+    // When mocking 
+    roleRepository.findById.calledWith(rolePartial.id).mockResolvedValue(role)
+    roleRepository.save.mockImplementation(r => Promise.resolve(r))
+    // And calling
+    const updatedRole = await roleService.update(rolePartial)
+    // Then
+    expect(updatedRole.id).toBe(role.id)
+    expect(updatedRole.name).toBe(role.name)
   })
 
   test('getPermissions method shoult return Permissions when valid Role id is passed', async () => {
