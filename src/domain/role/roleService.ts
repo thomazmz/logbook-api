@@ -33,8 +33,7 @@ export const roleServiceFactory = (
 
   async findById(roleId: number): Promise<Role> {
     const findedRole = await roleRepository.findById(roleId)
-    if(!findedRole) throw new Error(`Could not find any Role entity with "id" property equal to ${roleId}.`)
-
+    if(!findedRole) throw Error(`Could not find any Role entity with "id" property equal to ${roleId}.`)
     return findedRole
   },
 
@@ -49,7 +48,7 @@ export const roleServiceFactory = (
 
   async getPermissions(roleId: number): Promise<Permission[]> {
     const findedRole = await this.findById(roleId)
-    return findedRole.permissions
+    return roleRepository.loadPermissions(findedRole)
   },
 
   async updatePermissions(rolePartial: RolePartial): Promise<Role> {

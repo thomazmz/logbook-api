@@ -23,7 +23,6 @@ export const RoleSchema = new EntitySchema<Role>({
     permissions: {
       type: 'many-to-many',
       target: Permission.name,
-      eager: true,
       joinTable: {
         name: 'permissions_by_roles',
       }

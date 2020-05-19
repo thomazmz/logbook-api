@@ -143,13 +143,14 @@ describe('roleService tests', () => {
     // Given
     const id = 1
     const name = 'someRole'
+    const role = new Role({ id, name })
     const permissions = [ 
       new Permission({ name: 'readSomething' }),
       new Permission({ name: 'writeSomething' })
     ]
-    const role = new Role({ id, name, permissions })
     // When
     roleRepository.findById.calledWith(id).mockResolvedValue(role)
+    roleRepository.loadPermissions.calledWith(role).mockResolvedValue(permissions)
     const findedPermissions = await roleService.getPermissions(id)
     // Then
     expect(findedPermissions).toBe(permissions)
