@@ -9,6 +9,6 @@ export const permissionControllerFactory = (permissionService: PermissionService
   findAll(request: Request, response: Response): void {
     const permissions = permissionService.findAll()
       .then(permissions => response.status(200).send(permissions))
-      .catch(error => response.status(500).send(error)) 
+      .catch((error: Error) => response.status(500).send(error.message)) 
   }
 })
