@@ -2,6 +2,8 @@ import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
 import { PermissionService, permissionServiceFactory } from './permissionService'
 import { PermissionRepository } from './permissionRepository'
 import { Permission } from './permission'
+import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierError'
+import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
 
 describe('permissionService tests', () => {
 
@@ -36,7 +38,7 @@ describe('permissionService tests', () => {
     // When
     const permissionPromise = permissionService.findByName(name)
     // Then
-    expect(permissionPromise).rejects.toThrow(Error)
+    expect(permissionPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })  
   
   test('findByName should throw Error when name parameter is undefined', () => {
@@ -45,7 +47,7 @@ describe('permissionService tests', () => {
     // When 
     const permissionPromise = permissionService.findByName(name)
     // Then
-    expect(permissionPromise).rejects.toThrow(Error)
+    expect(permissionPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('findByName should throw Error when name parameter is null', () => {
@@ -54,7 +56,7 @@ describe('permissionService tests', () => {
     // When 
     const permissionPromise = permissionService.findByName(name)
     // Then
-    expect(permissionPromise).rejects.toThrow(Error)
+    expect(permissionPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('findByName should return Permission entity', async () => {
@@ -88,7 +90,7 @@ describe('permissionService tests', () => {
     // When
     const permissionPromise = permissionService.findByNames(names)
     // Then
-    expect(permissionPromise).rejects.toThrow(Error)
+    expect(permissionPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('findByNames should return Permission entities', async () => {

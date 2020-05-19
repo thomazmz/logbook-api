@@ -1,9 +1,11 @@
-import { mock as createMock, MockProxy as Mock, mockReset } from 'jest-mock-extended'
+import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
+import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierError'
 import { RoleService, roleServiceFactory } from './roleService'
 import { RoleRepository } from './roleRepository'
 import { PermissionService } from '../permission/permissionService'
 import { Permission } from '../permission/permission'
 import { Role } from './role'
+import { create } from 'domain'
 
 describe('roleService tests', () => {
 
@@ -50,8 +52,9 @@ describe('roleService tests', () => {
     const name = 'someRole'
     const rolepartial = { name }
     const role = new Role(rolepartial)
-    // When
+    // When mocking
     roleRepository.findByName.mockResolvedValue(role)
+    // And calling
     const rolePromise = roleService.create(rolepartial)
     // Then
     expect(rolePromise).rejects.toThrow(Error)
@@ -62,8 +65,9 @@ describe('roleService tests', () => {
     const id = 1;
     const name = 'someRole'
     const role = new Role({ id, name })
-    // When
+    // When mockings
     roleRepository.findById.calledWith(id).mockResolvedValue(role)
+    // And calling
     const findedRole = await roleService.findById(id)
     // Then
     expect(findedRole).toBeInstanceOf(Role)
@@ -89,15 +93,17 @@ describe('roleService tests', () => {
       id: 1,
       name: 'someRoleName'
     }
+
     // When mocking 
     roleRepository.findById.calledWith(rolePartial.id).mockResolvedValue(role)
     roleRepository.save.calledWith(Object.assign(role, rolePartial)).mockResolvedValue(role)
+
     // And calling
     const updatedRole = await roleService.update(rolePartial)
+
     // Then
     expect(updatedRole.id).toBe(rolePartial.id)
     expect(updatedRole.name).toBe(rolePartial.name)
-    
   })
 
   test('update method should update name', async () => {
@@ -110,11 +116,14 @@ describe('roleService tests', () => {
       id: 1,
       name: 'someRoleName'
     }
+
     // When mocking 
     roleRepository.findById.calledWith(rolePartial.id).mockResolvedValue(role)
     roleRepository.save.mockImplementation(r => Promise.resolve(r))
+
     // And calling
     const updatedRole = await roleService.update(rolePartial)
+
     // Then
     expect(updatedRole.id).toBe(rolePartial.id)
     expect(updatedRole.name).toBe(rolePartial.name)
@@ -129,11 +138,14 @@ describe('roleService tests', () => {
     const rolePartial = {
       id: 1
     }
+
     // When mocking 
     roleRepository.findById.calledWith(rolePartial.id).mockResolvedValue(role)
     roleRepository.save.mockImplementation(r => Promise.resolve(r))
+
     // And calling
     const updatedRole = await roleService.update(rolePartial)
+
     // Then
     expect(updatedRole.id).toBe(role.id)
     expect(updatedRole.name).toBe(role.name)
@@ -148,10 +160,14 @@ describe('roleService tests', () => {
       new Permission({ name: 'readSomething' }),
       new Permission({ name: 'writeSomething' })
     ]
-    // When
+
+    // When mocking
     roleRepository.findById.calledWith(id).mockResolvedValue(role)
     roleRepository.loadPermissions.calledWith(role).mockResolvedValue(permissions)
+
+    // And calling
     const findedPermissions = await roleService.getPermissions(id)
+
     // Then
     expect(findedPermissions).toBe(permissions)
   })
@@ -161,8 +177,10 @@ describe('roleService tests', () => {
     const invalidRoleId = 1
     // When mocking
     roleRepository.findById.calledWith(invalidRoleId).mockResolvedValue(null)
+    // And calling 
+    const permissionsPromise = roleService.getPermissions(invalidRoleId)
     // Then
-    expect(roleService.getPermissions(invalidRoleId)).rejects.toThrow(Error)
+    expect(permissionsPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
   
   test('updatePermissions should return updated Role entity', async () => {
@@ -205,12 +223,15 @@ describe('roleService tests', () => {
     const rolepartial = {
       id: invalidRoleId
     }
+
     // When mocking
     roleRepository.findById.calledWith(invalidRoleId).mockResolvedValue(null)
+
     // And calling
     const updatePremissionsPromise = roleService.updatePermissions(rolepartial)
+
     // Then
-    expect(updatePremissionsPromise).rejects.toThrow(Error)
+    expect(updatePremissionsPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('updatePermissions should throw Error when any invalid permissionPartial.name is passed', async () => {
@@ -225,12 +246,16 @@ describe('roleService tests', () => {
         { name: invalidPermissionName }
       ]
     }
+
     // When mocking
     roleRepository.findById.mockResolvedValue(createMock<Role>())
-    permissionService.findByNames.mockRejectedValue(Error('Some Error'))
+    permissionService.findByNames.mockRejectedValue(new InvalidEntityIdentifierError(Permission.name, 'name', invalidPermissionName))
+
     // And calling
     const updatedRolePromisse = roleService.updatePermissions(rolePartial)
+
     // Then 
-    expect(updatedRolePromisse).rejects.toThrow(Error)
+    expect(updatedRolePromisse).rejects.toThrow(InvalidEntityIdentifierError)
   })
 })
+

@@ -1,3 +1,5 @@
+import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierError'
+import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
 import { Role, RolePartial } from './role'
 import { RoleRepository } from './roleRepository'
 import { PermissionService } from '../permission/permissionService'
@@ -25,7 +27,7 @@ export const roleServiceFactory = (
   async create(rolePartial: RolePartial): Promise<Role> {
     const findedRole = await roleRepository.findByName(rolePartial.name)
     
-    if(findedRole) throw Error('Role name already in use.')
+    if(findedRole) throw new UnavailableEntityIdentifierError(Role.name, 'id', rolePartial.name)
 
     const role = new Role(rolePartial)
     return roleRepository.save(role)
@@ -33,7 +35,7 @@ export const roleServiceFactory = (
 
   async findById(roleId: number): Promise<Role> {
     const findedRole = await roleRepository.findById(roleId)
-    if(!findedRole) throw Error(`Could not find any Role entity with "id" property equal to ${roleId}.`)
+    if(!findedRole) throw new InvalidEntityIdentifierError(Role.name, 'id', roleId)
     return findedRole
   },
 

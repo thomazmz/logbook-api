@@ -1,3 +1,4 @@
+import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierError'
 import { PermissionRepository } from './permissionRepository'
 import { Permission } from './permission'
 
@@ -22,7 +23,7 @@ export const permissionServiceFactory = (
   },
 
   async findByName(name: string): Promise<Permission> {
-    if(!permissionNames.includes(name)) throw Error(`"${name}" is not a valid Permission name.`)
+    if(!permissionNames.includes(name)) throw new InvalidEntityIdentifierError(Permission.name, "name", name)
     return permissionRepository.findOrCreate({ name })
   },
   
