@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import bodyParser from 'body-parser'
 import { createContainer, asFunction, InjectionMode } from 'awilix'
 
@@ -49,8 +49,16 @@ export async function init(port: Number = 4040) {
   const application = express()
   application.use(applicationRouter)
 
+  // Setup error handler
+  application.use(errorHandler)
+
   // Run application
   application.listen(port, () => {
     console.log(`Application successfully listen on port ${port}`)
   })
+}
+
+// Error Handling
+export const errorHandler = (error: Error, request: Request, response: Response, next: NextFunction) => {
+  response.status(500).send(error.message);
 }
