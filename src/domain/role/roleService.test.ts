@@ -17,6 +17,19 @@ describe('roleService tests', () => {
     roleService = roleServiceFactory(roleRepository, permissionService)
   })
 
+  test('findAll method should return all Roles in role repository', async () => {
+    // Given
+    const someRole = new Role({name: 'someRole'})
+    const anotherRole = new Role({ name: 'anotherRole' })
+    // When mocking
+    const mockedRoles = [ someRole, anotherRole ]
+    roleRepository.findAll.mockResolvedValue(mockedRoles)
+    // And calling
+    const findedRoles = await roleService.findAll()
+    // Then
+    expect(findedRoles).toBe(mockedRoles)
+  })
+
   test('create method should return saved Role entity', async () => {
     // Given
     const id = 1

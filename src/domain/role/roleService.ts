@@ -4,7 +4,7 @@ import { PermissionService } from '../permission/permissionService'
 import { Permission } from '../permission/permission'
 
 export type RoleService = {
-  create(rolePartial: Partial<Role>): Promise<Role>
+  findAll(): Promise<Role[]>
   findById(roleId:number): Promise<Role>
   getPermissions(roleId: number): Promise<Permission[]>
   updatePermissions(role: RolePartial): Promise<Role>
@@ -15,7 +15,12 @@ export const roleServiceFactory = (
   permissionService: PermissionService
 ): RoleService => ({
 
-  async create(rolePartial: Partial<Role>): Promise<Role> {
+  async findAll(): Promise<Role[]> {
+    const findedRoles = await roleRepository.findAll()
+    return findedRoles
+  },
+
+  async create(rolePartial: RolePartial): Promise<Role> {
     const findedRole = await roleRepository.findByName(rolePartial.name)
     
     if(findedRole) throw Error('Role name already in use.')
