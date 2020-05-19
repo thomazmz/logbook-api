@@ -21,7 +21,7 @@ export async function init(port: Number = 4040) {
   const container = createContainer({
     injectionMode: InjectionMode.CLASSIC
   })
-    
+
   container.register({
     roleRepository: asFunction(roleRepositoryFactory),
     roleService: asFunction(roleServiceFactory),
