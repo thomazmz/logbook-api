@@ -5,5 +5,6 @@ module.exports = {
     "**/*Controller.ts",
     "**/*Repository.ts",
     "**/domain/**/*.ts",
+    "!**/index.ts"
   ]
 };
