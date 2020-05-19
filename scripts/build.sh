@@ -3,7 +3,8 @@
 output_directory_path="./build"
 
 remove_output_directory() {
-  if [ -d $output_directory_path ]; then
+  if [ -d $output_directory_path ]
+  then
     rm -Rf $output_directory_path
   fi
 }
