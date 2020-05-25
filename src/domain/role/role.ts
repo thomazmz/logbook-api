@@ -1,17 +1,17 @@
 import { Account, AccountPartial } from '../account/account'
-import { Permission, PermissionPartial } from '../permission/permission'
+import { Authorization, AuthorizationPartial } from '../authorization/authorization'
 
 export interface RolePartial {
   id?: number,
   name?: string
-  permissions?: PermissionPartial[],
+  authorizations?: AuthorizationPartial[],
   accounts?: AccountPartial[]
 }
 
 export class Role {
   id: number
   name: string
-  permissions: Permission[]
+  authorizations: Authorization[]
   accounts: Account[]
 
   constructor(rolePartial: RolePartial) {

@@ -1,21 +1,20 @@
 import { Connection} from 'typeorm'
-import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '../initializer'
 import { typeOrmRoleRepositoryFactory } from './typeOrmRoleRepository'
-import { Role, RoleRepository, PermissionRepository } from '../../../domain'
-import { typeOrmPermissionRepositoryFactory } from './typeOrmPermissionRepository'
-import { generateRolePartial, generatePermissionPartial } from './testUtils'
+import { Role, RoleRepository, AuthorizationRepository } from '../../../domain'
+import { typeOrmAuthorizationRepositoryFactory } from './typeOrmAuthorizationRepository'
+import { generateRolePartial, generateAuthorizationPartial } from './testUtils'
 
 describe('TypeOrmRoleRepository tests', () => {
 
   let databaseConnection: Connection
   let roleRepository: RoleRepository
-  let permissionRepository: PermissionRepository
+  let authorizationRepository: AuthorizationRepository
 
   beforeAll(async () => {
     databaseConnection = await setUpDatabase()
     roleRepository = typeOrmRoleRepositoryFactory()
-    permissionRepository = typeOrmPermissionRepositoryFactory()
+    authorizationRepository = typeOrmAuthorizationRepositoryFactory()
   })
 
   afterAll(async () => {
@@ -35,35 +34,35 @@ describe('TypeOrmRoleRepository tests', () => {
     expect(role instanceof Role).toBeTruthy()
   })
 
-  test('loadPermissions method should return Permission entities', async () => {
-    // Given some permissions
-    const somePermissionPartial = generatePermissionPartial()
-    const anotherPermissionPartial = generatePermissionPartial()
-    const somePermission = await permissionRepository.findOrCreate(somePermissionPartial)
-    const anotherPermission = await permissionRepository.findOrCreate(anotherPermissionPartial)
+  test('loadAuthorizations method should return Authorization entities', async () => {
+    // Given some authorization
+    const someAuthorizationPartial = generateAuthorizationPartial()
+    const anotherAuthorizationPartial = generateAuthorizationPartial()
+    const someAuthorization = await authorizationRepository.findOrCreate(someAuthorizationPartial)
+    const anotherAuthorization = await authorizationRepository.findOrCreate(anotherAuthorizationPartial)
     // And some role
     const rolePartial = generateRolePartial()
-    const permissions = [ somePermission, anotherPermission ]
-    const role = await roleRepository.save(new Role({ ...rolePartial, permissions }))
+    const authorizations = [ someAuthorization, anotherAuthorization ]
+    const role = await roleRepository.save(new Role({ ...rolePartial, authorizations }))
     // When
-    const findedPermissions = await roleRepository.loadPermissions(role)
+    const findedAuthorizations = await roleRepository.loadAuthorizations(role)
     // Then
-    expect(findedPermissions).toEqual(permissions)
+    expect(findedAuthorizations).toEqual(authorizations)
   })
  
-  test('loadPermissions method should embed permissions into Role entity', async () => {
-    // Given some permissions
-    const somePermissionPartial = generatePermissionPartial()
-    const anotherPermissionPartial = generatePermissionPartial()
-    const somePermission = await permissionRepository.findOrCreate(somePermissionPartial)
-    const anotherPermission = await permissionRepository.findOrCreate(anotherPermissionPartial)
+  test('Authorizations method should embed authorizations into Role entity', async () => {
+    // Given some authorizations
+    const someAuthorizationPartial = generateAuthorizationPartial()
+    const anotherAuthorizationPartial = generateAuthorizationPartial()
+    const someAuthorization = await authorizationRepository.findOrCreate(someAuthorizationPartial)
+    const anotherAuthorization = await authorizationRepository.findOrCreate(anotherAuthorizationPartial)
     // And some role
     const rolePartial = generateRolePartial()
-    const permissions = [ somePermission, anotherPermission ]
-    const role = await roleRepository.save(new Role({ ...rolePartial, permissions }))
+    const authorizations = [ someAuthorization, anotherAuthorization ]
+    const role = await roleRepository.save(new Role({ ...rolePartial, authorizations }))
     // When
-    await roleRepository.loadPermissions(role)
+    await roleRepository.loadAuthorizations(role)
     // Then
-    expect(role.permissions).toEqual(permissions)
+    expect(role.authorizations).toEqual(authorizations)
   })
 })

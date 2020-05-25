@@ -1,8 +1,8 @@
 import { Role } from './role'
 import { CrudRepository } from '../crudRepository';
-import { Permission } from '../permission/permission';
+import { Authorization } from '../authorization/authorization';
 
 export interface RoleRepository extends CrudRepository<Role, number> {
   findByName(name: string): Promise<Role>
-  loadPermissions(role: Role): Promise<Permission[]>
+  loadAuthorizations(role: Role): Promise<Authorization[]>
 }

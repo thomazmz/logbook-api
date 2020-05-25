@@ -8,12 +8,12 @@ import { roleControllerFactory } from './role/roleController'
 import { roleRepositoryFactory } from '../infrastructure'
 import { roleServiceFactory } from '../domain'
 
-// Permission
-import { permissionRouterFactory } from './permission/permissionRouter'
-import { permissionControllerFactory } from './permission/permissionController'
-import { permissionRepositoryFactory } from '../infrastructure'
-import { permissionServiceFactory } from '../domain'
-import { permissionNames } from '../domain/permission/permissionService'
+// Authorization
+import { authorizationRouterFactory } from './authorization/authorizationRouter'
+import { authorizationControllerFactory } from './authorization/authorizationController'
+import { authorizationRepositoryFactory } from '../infrastructure'
+import { authorizationServiceFactory } from '../domain'
+import { authorizationNames } from '../domain/authorization/authorizationService'
 
 export async function init(port: Number = 4040) {
 
@@ -28,11 +28,11 @@ export async function init(port: Number = 4040) {
     roleController: asFunction(roleControllerFactory),
     roleRouter: asFunction(roleRouterFactory),
     
-    permissionRepository: asFunction(permissionRepositoryFactory),
-    permissionService: asFunction(permissionServiceFactory),
-    permissionController: asFunction(permissionControllerFactory),
-    permissionRouter: asFunction(permissionRouterFactory),
-    permissionNames: asFunction(permissionNames)
+    AuthorizationRepository: asFunction(authorizationRepositoryFactory),
+    AuthorizationService: asFunction(authorizationServiceFactory),
+    AuthorizationController: asFunction(authorizationControllerFactory),
+    AuthorizationRouter: asFunction(authorizationRouterFactory),
+    AuthorizationNames: asFunction(authorizationNames)
   })
 
   // Setup api router
@@ -40,7 +40,7 @@ export async function init(port: Number = 4040) {
   apiRouter.use(bodyParser.json())
 
   apiRouter.use('/roles', container.resolve('roleRouter'))
-  apiRouter.use('/permissions', container.resolve('permissionRouter'))
+  apiRouter.use('/Authorizations', container.resolve('AuthorizationRouter'))
 
   // Setup application router
   const applicationRouter = express.Router()

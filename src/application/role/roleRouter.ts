@@ -9,8 +9,8 @@ export const roleRouterFactory = (roleController: RoleController): Router => {
   roleRouter.post('/', roleController.create)
   roleRouter.get('/:id', roleController.findOne)
   roleRouter.patch('/:id', roleController.update)
-  roleRouter.get('/:id/permissions', roleController.getPermissions)
-  roleRouter.put('/:id/permissions', roleController.updatePermissions)
+  roleRouter.get('/:id/authorizations', roleController.getAuthorizations)
+  roleRouter.put('/:id/authorizations', roleController.updateAuthorizations)
 
   return roleRouter
 }

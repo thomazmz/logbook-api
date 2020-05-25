@@ -1,4 +1,4 @@
-import { Role, RoleService, Permission } from "../../domain";
+import { Role, RoleService, Authorization } from "../../domain";
 import { Request, Response, NextFunction } from "express";
 
 export type RoleController = {
@@ -6,8 +6,8 @@ export type RoleController = {
   create(request: Request, response: Response, next: NextFunction): void
   findOne(request: Request, response: Response, next: NextFunction): void
   update(request: Request, response: Response, next: NextFunction): void
-  getPermissions(request: Request, response: Response, next: NextFunction): void
-  updatePermissions(request: Request, response: Response, next: NextFunction): void
+  getAuthorizations(request: Request, response: Response, next: NextFunction): void
+  updateAuthorizations(request: Request, response: Response, next: NextFunction): void
 }
 
 export const roleControllerFactory = (roleService: RoleService): RoleController => ({
@@ -19,8 +19,8 @@ export const roleControllerFactory = (roleService: RoleService): RoleController 
   },
   
   create(request: Request, response: Response, next: NextFunction): void {
-    const { name, permissions } = request.body
-    roleService.create({ name, permissions })
+    const { name, authorizations } = request.body
+    roleService.create({ name, authorizations })
       .then((role: Role) => response.status(200).send(role))
       .catch((error: Error) => next(error))
   },
@@ -40,18 +40,18 @@ export const roleControllerFactory = (roleService: RoleService): RoleController 
       .catch((error: Error) => next(error))
   },
 
-  getPermissions(request: Request, response: Response, next: NextFunction): void {
+  getAuthorizations(request: Request, response: Response, next: NextFunction): void {
     const id = parseInt(request.params.id)
-    roleService.getPermissions(id)
-      .then((permissions: Permission[]) => response.status(200).send(permissions))
+    roleService.getAuthorizations(id)
+      .then((authorizations: Authorization[]) => response.status(200).send(authorizations))
       .catch((error: Error) => next(error))
   },
 
-  updatePermissions(request: Request, response: Response, next: NextFunction): void {
+  updateAuthorizations(request: Request, response: Response, next: NextFunction): void {
     const id = parseInt(request.params.id)
-    const permissions = request.body
-    roleService.updatePermissions({ id, permissions})
-      .then((role: Role) => response.status(200).send(role.permissions))
+    const authorizations = request.body
+    roleService.updateAuthorizations({ id, authorizations})
+      .then((role: Role) => response.status(200).send(role.authorizations))
       .catch((error: Error) => next(error))
   }
 })

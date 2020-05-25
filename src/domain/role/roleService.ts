@@ -2,21 +2,21 @@ import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierEr
 import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
 import { Role, RolePartial } from './role'
 import { RoleRepository } from './roleRepository'
-import { PermissionService } from '../permission/permissionService'
-import { Permission } from '../permission/permission'
+import { AuthorizationService } from '../authorization/authorizationService'
+import { Authorization } from '../authorization/authorization'
 
 export type RoleService = {
   findAll(): Promise<Role[]>
   create(rolePartial: RolePartial): Promise<Role>
   findById(roleId:number): Promise<Role>
   update(rolePartial: RolePartial): Promise<Role>
-  getPermissions(roleId: number): Promise<Permission[]>
-  updatePermissions(role: RolePartial): Promise<Role>
+  getAuthorizations(roleId: number): Promise<Authorization[]>
+  updateAuthorizations(role: RolePartial): Promise<Role>
 }
 
 export const roleServiceFactory = (
   roleRepository: RoleRepository,
-  permissionService: PermissionService
+  authorizationService: AuthorizationService
 ): RoleService => ({
 
   async findAll(): Promise<Role[]> {
@@ -48,18 +48,18 @@ export const roleServiceFactory = (
     return roleRepository.save(findedRole)
   },
 
-  async getPermissions(roleId: number): Promise<Permission[]> {
+  async getAuthorizations(roleId: number): Promise<Authorization[]> {
     const findedRole = await this.findById(roleId)
-    return roleRepository.loadPermissions(findedRole)
+    return roleRepository.loadAuthorizations(findedRole)
   },
 
-  async updatePermissions(rolePartial: RolePartial): Promise<Role> {
+  async updateAuthorizations(rolePartial: RolePartial): Promise<Role> {
     const findedRole = await this.findById(rolePartial.id)
 
-    const permissionNames = rolePartial.permissions.map(p => p.name)
-    const findedPermissions = await permissionService.findByNames(permissionNames)
+    const authorizationNames = rolePartial.authorizations.map(p => p.name)
+    const findedAuthorizations = await authorizationService.findByNames(authorizationNames)
 
-    findedRole.permissions = findedPermissions
+    findedRole.authorizations = findedAuthorizations
     return roleRepository.save(findedRole)
   }
 })

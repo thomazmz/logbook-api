@@ -1,9 +1,9 @@
-import { EntityRepository, getCustomRepository, getConnection } from 'typeorm'
+import { EntityRepository, getCustomRepository } from 'typeorm'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 import { Role } from '../../../domain/role/role'
 import { RoleRepository } from '../../../domain/role/roleRepository'
 import { RoleSchema } from '../schemas/roleSchema'
-import { Permission } from '../../../domain'
+import { Authorization } from '../../../domain'
 
 @EntityRepository(RoleSchema)
 export class TypeOrmRoleRepository extends TypeOrmCrudRepository<Role, number> implements RoleRepository {
@@ -12,14 +12,14 @@ export class TypeOrmRoleRepository extends TypeOrmCrudRepository<Role, number> i
     return this.repository.findOne( {where: { name }})
   }
 
-  async loadPermissions(role: Role): Promise<Permission[]> {
-    role.permissions = await this.repository
+  async loadAuthorizations(role: Role): Promise<Authorization[]> {
+    role.authorizations = await this.repository
       .createQueryBuilder()
-      .relation(Role, 'permissions')
+      .relation(Role, 'authorizations')
       .of(role) 
       .loadMany()
     
-    return role.permissions
+    return role.authorizations
   }
 }
 
