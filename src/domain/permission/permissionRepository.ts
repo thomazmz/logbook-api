@@ -1,8 +1,8 @@
-import { Permission } from './permission'
+import { Permission, PermissionPartial } from './permission'
 
 export interface PermissionRepository {
  
-  findOrCreate(attributes: Partial<Permission>): Promise<Permission>
+  findOrCreate(attributes: PermissionPartial): Promise<Permission>
 
-  findOrCreateMany(attributes: Partial<Permission>[]): Promise<Permission[]>
+  findOrCreateMany(attributes: PermissionPartial[]): Promise<Permission[]>
 }

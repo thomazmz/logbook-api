@@ -1,8 +1,8 @@
 import { Connection} from 'typeorm'
-import { v4 as uuid } from 'uuid'
 import { init as setUpDatabase } from '../initializer'
 import { typeOrmPermissionRepositoryFactory } from './typeOrmPermissionRepository'
 import { Permission, PermissionRepository } from '../../../domain'
+import { generatePermissionPartial } from './testUtils'
 
 describe('TypeOrmPermissionRepository tests', () => {
 
@@ -20,10 +20,10 @@ describe('TypeOrmPermissionRepository tests', () => {
 
   test('findOrCreate should create Permission entity', async () => {
     // Given
-    const name = `validPermission_${uuid()}`
+    const permissionPartial = generatePermissionPartial()
     
     // When
-    const permission = await permissionRepository.findOrCreate({ name })
+    const permission = await permissionRepository.findOrCreate(permissionPartial)
     const findedPermission = await databaseConnection.createQueryBuilder()
       .select('permission')
       .from(Permission, 'permission')
@@ -38,12 +38,12 @@ describe('TypeOrmPermissionRepository tests', () => {
 
   test('findOrCreate should find Permission entity', async () => {
     // Given
-    const name = `validPermission_${uuid()}`
+    const permissionPartial = generatePermissionPartial()
 
     const result = await databaseConnection.createQueryBuilder()
       .insert()
       .into(Permission)
-      .values({ name })
+      .values(permissionPartial)
       .returning('*')
       .execute()
 
@@ -51,10 +51,10 @@ describe('TypeOrmPermissionRepository tests', () => {
     const findedPermission = await databaseConnection.createQueryBuilder()
       .select('permission')
       .from(Permission, 'permission')
-      .where('permission.name = :name', { name })
+      .where('permission.name = :name', permissionPartial)
       .getOne()
 
-    const permission = await permissionRepository.findOrCreate({ name })
+    const permission = await permissionRepository.findOrCreate(permissionPartial)
 
     // Then
     expect(permission).toBeInstanceOf(Permission)
@@ -64,7 +64,7 @@ describe('TypeOrmPermissionRepository tests', () => {
 
   test('findOrCreateMany should find or create many Permission entities', async () => {
     // Given a array with two valid permissioin names
-    const names = [ `someValidPermission_${uuid()}`, `someValidPermission_${uuid()}` ]
+    const names = [ generatePermissionPartial().name, generatePermissionPartial().name ]
     
     // When calling findOrCreateMany with the array as parameter
     const permissions = await permissionRepository.findOrCreateMany(names.map(name => ({ name })))
@@ -76,7 +76,7 @@ describe('TypeOrmPermissionRepository tests', () => {
 
   test('findOrCreateMany should find or create many Permission entities', async () => {
     // Given a list with two valid permissioin names
-    const names = [ `someValidPermission_${uuid()}`, `someValidPermission_${uuid()}` ]
+    const names = [ generatePermissionPartial().name, generatePermissionPartial().name ]
     
     // When calling findOrCreateMany with the previous mentioned list as parameter
     const permissions = await permissionRepository.findOrCreateMany(names.map(name => ({ name })))
