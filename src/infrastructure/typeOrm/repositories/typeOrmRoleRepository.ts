@@ -1,9 +1,7 @@
 import { EntityRepository, getCustomRepository } from 'typeorm'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
-import { Role } from '../../../domain/role/role'
-import { RoleRepository } from '../../../domain/role/roleRepository'
+import { RoleRepository, Role, Authorization } from '../../../domain'
 import { RoleSchema } from '../schemas/roleSchema'
-import { Authorization } from '../../../domain'
 
 @EntityRepository(RoleSchema)
 export class TypeOrmRoleRepository extends TypeOrmCrudRepository<Role, number> implements RoleRepository {

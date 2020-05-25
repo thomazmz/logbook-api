@@ -3,7 +3,7 @@ import { init as setUpDatabase } from '../initializer'
 import { typeOrmRoleRepositoryFactory } from './typeOrmRoleRepository'
 import { Role, RoleRepository, AuthorizationRepository } from '../../../domain'
 import { typeOrmAuthorizationRepositoryFactory } from './typeOrmAuthorizationRepository'
-import { generateRolePartial, generateAuthorizationPartial } from '../../testUtils'
+import { generateRolePartial, generateAuthorizationPartial } from '../testUtils'
 
 describe('TypeOrmRoleRepository tests', () => {
 

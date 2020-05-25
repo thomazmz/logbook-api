@@ -1,6 +1,5 @@
 import { EntityRepository, getCustomRepository } from 'typeorm'
-import { Authorization, AuthorizationPartial } from '../../../domain/authorization/authorization'
-import { AuthorizationRepository } from '../../../domain/authorization/authorizationRepository'
+import { Authorization, AuthorizationPartial, AuthorizationRepository } from '../../../domain'
 import { AuthorizationSchema } from '../schemas/authorizationSchema'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 

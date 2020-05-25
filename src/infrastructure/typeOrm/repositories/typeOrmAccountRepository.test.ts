@@ -1,10 +1,10 @@
 import { Connection } from 'typeorm'
-import { generateAccountPartial } from '../../testUtils'
+import { generateAccountPartial } from '../testUtils'
 import { typeOrmAccountRepositoryFactory } from './typeOrmAccountRepository'
 import { typeOrmRoleRepositoryFactory } from './typeOrmRoleRepository'
 import { Account, AccountRepository, Role, RoleRepository } from '../../../domain'
 import { init as setUpDatabase } from '../initializer'
-import { generateRolePartial } from '../../testUtils'
+import { generateRolePartial } from '../testUtils'
 
 
 describe('TypeOrmAccountRepository tests', () => {

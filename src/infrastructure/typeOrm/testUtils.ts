@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { AuthorizationPartial } from '../domain/authorization/authorization'
-import { AccountPartial } from '../domain/account/account'
-import { RolePartial } from '../domain/role/role'
+import { AuthorizationPartial } from '../../domain/authorization/authorization'
+import { AccountPartial } from '../../domain/account/account'
+import { RolePartial } from '../../domain/role/role'
 
 export function generateAccountPartial(): AccountPartial {
   const identifier = uuid()
