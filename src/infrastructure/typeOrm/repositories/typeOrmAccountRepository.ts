@@ -1,5 +1,5 @@
 import { EntityRepository, getCustomRepository } from 'typeorm'
-import { Account, AccountRepository } from '../../../domain'
+import { Account, AccountRepository, Role } from '../../../domain'
 import { AccountSchema } from '../schemas/accountSchema'
 import { TypeOrmCrudRepository } from './typeOrmCrudRepository'
 
@@ -12,6 +12,16 @@ export class TypeOrmAccountRepository extends TypeOrmCrudRepository<Account, num
 
   findOneByUsername(username: string): Promise<Account> {
     return this.repository.findOne({ where: { username }, relations: [ 'roles' ]})
+  }
+
+  async loadRoles(account: Account): Promise<Role[]> {
+    account.roles = await this.repository
+      .createQueryBuilder()
+      .relation(Account, 'roles')
+      .of(account) 
+      .loadMany()
+    
+    return account.roles
   }
 }
 

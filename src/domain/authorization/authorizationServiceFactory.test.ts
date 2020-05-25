@@ -1,9 +1,9 @@
 import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
-import { AuthorizationService, authorizationServiceFactory } from './authorizationService'
+import { InvalidEntityIdentifierError } from '../errors/invalidEntityIdentifierError'
+import { authorizationServiceFactory } from './authorizationServiceFactory'
+import { AuthorizationService } from './authorizationService'
 import { AuthorizationRepository } from './authorizationRepository'
 import { Authorization } from './authorization'
-import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierError'
-import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
 
 describe('authorizationService tests', () => {
 

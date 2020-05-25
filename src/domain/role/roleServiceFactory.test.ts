@@ -1,11 +1,12 @@
 import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
-import { InvalidEntityIdentifierError } from '../error/invalidEntityIdentifierError'
-import { RoleService, roleServiceFactory } from './roleService'
-import { RoleRepository } from './roleRepository'
-import { AuthorizationService } from '../authorization/authorizationService'
+import { InvalidEntityIdentifierError } from '../errors/invalidEntityIdentifierError'
+import { AuthorizationService } from '../authorization'
 import { Authorization } from '../authorization/authorization'
+import { roleServiceFactory } from './roleServiceFactory'
+import { RoleRepository } from './roleRepository'
+import { RoleService } from './roleService'
 import { Role } from './role'
-import { create } from 'domain'
+
 
 describe('roleService tests', () => {
 
@@ -182,7 +183,7 @@ describe('roleService tests', () => {
     // Then
     expect(authorizationsPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
-  
+
   test('updateAuthorizations should return updated Role entity', async () => {
     // Given
     const validRoleId = 1

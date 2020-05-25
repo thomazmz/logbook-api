@@ -1,12 +1,9 @@
-import { Account } from "./account";
+import { CrudRepository } from '../crud'
+import { Account } from "./account"
+import { Role } from '../role'
 
-export type AccountRepository = {
-
-  findById(id: number): Promise<Account>
-
-  findOneByEmailAddress(emailAddress: string): Promise<Account>
-
+export interface AccountRepository extends CrudRepository<Account, number> {
   findOneByUsername(username: string): Promise<Account>
-
-  save(account: Account): Promise<Account>
+  findOneByEmailAddress(emailAddress: string): Promise<Account>
+  loadRoles(account: Account): Promise<Role[]>
 }

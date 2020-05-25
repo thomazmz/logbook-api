@@ -2,7 +2,7 @@ import { Connection} from 'typeorm'
 import { init as setUpDatabase } from '../initializer'
 import { typeOrmAuthorizationRepositoryFactory } from './typeOrmAuthorizationRepository'
 import { Authorization, AuthorizationRepository } from '../../../domain'
-import { generateAuthorizationPartial } from './testUtils'
+import { generateAuthorizationPartial } from '../../testUtils'
 
 describe('TypeOrmAuthorizationRepository tests', () => {
 

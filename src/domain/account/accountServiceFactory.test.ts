@@ -1,8 +1,11 @@
 import { mock as createMock, MockProxy as Mock } from 'jest-mock-extended'
-import { UnavailableEntityIdentifierError } from '../error/unavailableEntityIdentifierError'
-import { AccountService, accountServiceFactory } from './accountService'
+import { UnavailableEntityIdentifierError, InvalidEntityIdentifierError } from '../errors'
+import { accountServiceFactory } from './accountServiceFactory'
+import { AccountService } from './accountService'
 import { AccountRepository } from './accountRepository'
 import { Account } from './account'
+import { Role } from '../role'
+import { roleControllerFactory } from '../../application/role/roleController'
 
 describe('AccountService tests', () => {
 
@@ -67,5 +70,47 @@ describe('AccountService tests', () => {
     expect(findedAccount.emailAddress).toBe(emailAddress)
     expect(findedAccount.username).toBe(username)
     expect(findedAccount.id).toBe(id)
+  }),
+
+  test('findById should throw InvalidEntityIdentifierError when invalid Account id is passed', async () => {
+    // Given
+    const invalidAccountId = 1;
+    // When
+    accountRepository.findById.calledWith(invalidAccountId).mockResolvedValue(null)
+    // Then
+    expect(accountService.findById(invalidAccountId)).rejects.toThrow(InvalidEntityIdentifierError)
+  })
+
+  test('getRoles should throw InvalidEntityIdentifierError when there is no Account with the given id', async () => {
+    // Given
+    const invalidAccountId = 1
+    // When mocking
+    accountRepository.findById.calledWith(invalidAccountId).mockResolvedValue(null)
+    // And calling 
+    const rolesPromise = accountService.getRoles(invalidAccountId)
+    // Then
+    expect(rolesPromise).rejects.toThrow(InvalidEntityIdentifierError)
+  })
+
+  test('getRoles method shoult return Roles when valid Account id is passed', async () => {
+    // Given
+    const id = 1
+    const username = 'someUsername'
+    const emailAddress = 'some@email.com'
+    const account = new Account( { username, emailAddress })
+    const roles = [ 
+      new Role({ name: 'someRole' }),
+      new Role({ name: 'anotherRole' })
+    ]
+
+    // When mocking
+    accountRepository.findById.calledWith(id).mockResolvedValue(account)
+    accountRepository.loadRoles.calledWith(account).mockResolvedValue(roles)
+
+    // And calling
+    const findedRoles = await accountService.getRoles(id)
+
+    // Then
+    expect(findedRoles).toBe(roles)
   })
 })
