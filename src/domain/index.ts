@@ -1,4 +1,3 @@
-export * from './crud'
 export * from './errors'
 export * from './account'
 export * from './role'

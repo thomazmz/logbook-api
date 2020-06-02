@@ -1,8 +1,7 @@
 import { Account } from './account'
 import { AccountRepository } from "./accountRepository"
 import { AccountService } from './accountService'
-import { Authorization } from '../authorization'
-import { Role, RoleService } from '../role'
+import { Role } from '../role'
 import { UnavailableEntityIdentifierError, InvalidEntityIdentifierError } from '../errors'
 
 export const accountServiceFactory = (

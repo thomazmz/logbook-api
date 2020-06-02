@@ -5,7 +5,6 @@ import { AccountService } from './accountService'
 import { AccountRepository } from './accountRepository'
 import { Account } from './account'
 import { Role } from '../role'
-import { roleControllerFactory } from '../../application/role/roleController'
 
 describe('AccountService tests', () => {
 

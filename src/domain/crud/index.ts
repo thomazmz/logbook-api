@@ -1,1 +1,0 @@
-export { CrudRepository } from './crudRepository'
