@@ -3,17 +3,17 @@ import bodyParser from 'body-parser'
 import { createContainer, asFunction, InjectionMode } from 'awilix'
 
 // Role
-import { roleRouterFactory } from './role/roleRouter'
-import { roleControllerFactory } from './role/roleController'
+import { roleRouterFactory } from './role'
+import { roleControllerFactory } from './role'
 import { roleRepositoryFactory } from '../infrastructure'
 import { roleServiceFactory } from '../domain'
 
 // Authorization
-import { authorizationRouterFactory } from './authorization/authorizationRouter'
-import { authorizationControllerFactory } from './authorization/authorizationController'
+import { authorizationNames } from './authorization'
+import { authorizationRouterFactory } from './authorization'
+import { authorizationControllerFactory } from './authorization'
 import { authorizationRepositoryFactory } from '../infrastructure'
 import { authorizationServiceFactory } from '../domain'
-import { authorizationNames } from '../domain/authorization/authorizationService'
 
 export async function init(port: Number = 4040) {
 
@@ -28,28 +28,26 @@ export async function init(port: Number = 4040) {
     roleController: asFunction(roleControllerFactory),
     roleRouter: asFunction(roleRouterFactory),
     
-    AuthorizationRepository: asFunction(authorizationRepositoryFactory),
-    AuthorizationService: asFunction(authorizationServiceFactory),
-    AuthorizationController: asFunction(authorizationControllerFactory),
-    AuthorizationRouter: asFunction(authorizationRouterFactory),
-    AuthorizationNames: asFunction(authorizationNames)
+    authorizationRepository: asFunction(authorizationRepositoryFactory),
+    authorizationService: asFunction(authorizationServiceFactory),
+    authorizationController: asFunction(authorizationControllerFactory),
+    authorizationRouter: asFunction(authorizationRouterFactory),
+    authorizationNames: asFunction(authorizationNames)
   })
 
   // Setup api router
   const apiRouter = express.Router()
   apiRouter.use(bodyParser.json())
-
   apiRouter.use('/roles', container.resolve('roleRouter'))
-  apiRouter.use('/Authorizations', container.resolve('AuthorizationRouter'))
+  apiRouter.use('/Authorizations', container.resolve('authorizationRouter'))
 
   // Setup application router
   const applicationRouter = express.Router()
   applicationRouter.use('/api', apiRouter)
 
+  // Setup application
   const application = express()
   application.use(applicationRouter)
-
-  // Setup error handler
   application.use(errorHandler)
 
   // Run application
