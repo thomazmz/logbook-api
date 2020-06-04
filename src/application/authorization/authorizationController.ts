@@ -1,14 +1,5 @@
-import { AuthorizationService } from "../../domain";
-import { Request, Response, NextFunction } from "express";
+import { RequestHandler } from "express";
 
 export type AuthorizationController = {
-  findAll(request: Request, response: Response, next: NextFunction): void
+  findAll: RequestHandler
 }
-
-export const authorizationControllerFactory = (authorizationService: AuthorizationService): AuthorizationController => ({
-  findAll(request: Request, response: Response, next: NextFunction): void {
-    const authorizations = authorizationService.findAll()
-      .then(authorizations => response.status(200).send(authorizations))
-      .catch((error: Error) => next(error))
-  }
-})

@@ -1,3 +1,3 @@
-export { authorizationControllerFactory } from './authorizationController'
+export { AuthorizationController } from './authorizationController'
+export { authorizationControllerFactory } from './authorizationControllerFactory'
 export { authorizationRouterFactory } from './authorizationRouter'
-export { authorizationNames } from './authorizations'
