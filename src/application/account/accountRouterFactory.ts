@@ -5,7 +5,7 @@ export const accountRouterFactory = (accountController: AccountController): Rout
   
   const accountRouter = Router()
   accountRouter.post('/', accountController.create)
-  accountRouter.get('/:id', accountController.findById)
+  accountRouter.get('/:id', accountController.findOne)
 
   return accountRouter
 }

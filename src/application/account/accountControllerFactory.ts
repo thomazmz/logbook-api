@@ -10,7 +10,7 @@ export const accountControllerFactory = (accountService: AccountService): Accoun
       .catch((error) => next(error))
   },
 
-  findById(request, response, next) {
+  findOne(request, response, next) {
     const accountId = parseFloat(request.params.id)
     accountService.findById(accountId)
       .then((account) => response.status(200).send(account))
