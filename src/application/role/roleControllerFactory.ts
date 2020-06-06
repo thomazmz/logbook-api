@@ -8,7 +8,7 @@ export const roleControllerFactory = (roleService: RoleService): RoleController 
       .then(roles => response.status(200).send(roles))
       .catch((error) => next(error))
   },
-  
+
   create(request, response, next) {
     const { name, authorizations } = request.body
     roleService.create({ name, authorizations })
@@ -21,8 +21,8 @@ export const roleControllerFactory = (roleService: RoleService): RoleController 
     roleService.findById(id)
       .then((role) => response.status(200).send(role))
       .catch((error) => next(error))
-  }, 
-  
+  },
+
   update(request, response, next) { 
     const id = parseInt(request.params.id)
     const { name } = request.body
