@@ -6,8 +6,6 @@ export const authorizations = Object.freeze({
   UPDATE_ROLES_AUTHORIZATIONS: { name: 'updateRolesAuthorizations' }
 })
 
-export const resolveAuthorizationNames = () => {
-  return Object.keys(authorizations).map(authorizationString => {
-    return authorizations[authorizationString].name
-  })
-}
+export const authorizationNames = Object.keys(authorizations).map(authorizationString => {
+  return authorizations[authorizationString].name
+})
