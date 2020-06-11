@@ -1,3 +1,1 @@
-export { AccountController } from './accountController'
-export { accountControllerFactory } from './accountControllerFactory'
-export { accountRouterFactory } from './accountRouterFactory'
+export { accountRoutes } from './accountRoutes'
