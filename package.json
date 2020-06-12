@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./scripts/build.sh",
+    "start": "scripts/development.sh",
     "development": "scripts/development.sh",
     "test": "scripts/test.sh"
   },
