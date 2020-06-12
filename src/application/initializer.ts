@@ -1,34 +1,25 @@
-import express, { Request, Response, NextFunction } from 'express'
-import { json as jsonBodyParser } from 'body-parser'
-import { resolveResourceRoutes } from './resources'
+import express, { Router } from 'express'
+import { contextResolver, registerContextValue } from './context'
+import { authorizationRoutes, authorizationNames } from './authorization'
+import { accountRoutes } from './account'
+import { roleRoutes } from './role'
 
-export async function init(port: Number = 4040) {
+export const initializer = async(port: Number = 4040) => {
 
-  // Setup api router
-  const apiRouter = express.Router()
-  apiRouter.use(jsonBodyParser())
+  registerContextValue('authorizationNames', authorizationNames)
 
-  // Setup resource routers
-  resolveResourceRoutes((path, router) => {
-    apiRouter.use(path, router)
-  })
+  const apiRouter = Router()
+  apiRouter.use('/roles', roleRoutes(contextResolver))
+  apiRouter.use('/authorizations', authorizationRoutes(contextResolver))
+  apiRouter.use('/accounts', accountRoutes(contextResolver))
 
-  // Setup application router
-  const applicationRouter = express.Router()
-  applicationRouter.use('/api', apiRouter)
-
-  // Setup application
   const application = express()
-  application.use(applicationRouter)
-  application.use(errorHandler)
+  application.use('/api', apiRouter)
 
-  // Run application
   application.listen(port, () => {
+    console.log('\n')
+    console.log('============================================')
     console.log(`Application successfully listen on port ${port}`)
+    console.log('============================================')
   })
-}
-
-// Error Handling
-export const errorHandler = (error: Error, request: Request, response: Response, next: NextFunction) => {
-  response.status(500).send(error.message);
 }

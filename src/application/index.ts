@@ -1,1 +1,1 @@
-export { init as setUpApplication } from './initializer'
+export { initializer as setUpApplication } from './initializer'
