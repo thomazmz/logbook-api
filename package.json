@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "./scripts/build.sh",
-    "start": "scripts/development.sh",
+    "test": "scripts/test.sh",
     "development": "scripts/development.sh",
-    "test": "scripts/test.sh"
+    "production": "scripts/production.sh"
   },
   "author": "Thomaz Zandonotto",
   "license": "ISC",
