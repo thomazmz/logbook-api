@@ -4,6 +4,17 @@ const entitiesDir = 'src/infrastructure/typeorm/schemas'
 const migrationsDir = 'src/infrastructure/typeorm/migrations'
 const subscribersDir = 'src/infrastructure/typeorm/subscribers'
 
+const repoConfiguration = {
+  entities: [`${entitiesDir}/**/*.ts`],
+  migrations: [`${migrationsDir}/**/*.ts`],
+  subscribers: [`${subscribersDir}/**/*.ts`],
+  cli: {
+    entitiesDir,
+    migrationsDir,
+    subscribersDir,
+  }
+}
+
 const connectionOptions = {
   development : {
     type: 'postgres',
@@ -14,14 +25,6 @@ const connectionOptions = {
     database: 'logbook',
     migrationsRun: false,
     logging: false,
-    entities: [`${entitiesDir}/**/*.ts`],
-    migrations: [`${migrationsDir}/**/*.ts`],
-    subscribers: [`${subscribersDir}/**/*.ts`],
-    cli: {
-      entitiesDir,
-      migrationsDir,
-      subscribersDir,
-    }
   },
   test : {
     type: 'postgres',
@@ -32,14 +35,6 @@ const connectionOptions = {
     database: 'logbook-test',
     migrationsRun: false,
     logging: false,
-    entities: [`${entitiesDir}/**/*.ts`],
-    migrations: [`${migrationsDir}/**/*.ts`],
-    subscribers: [`${subscribersDir}/**/*.ts`],
-    cli: {
-      entitiesDir,
-      migrationsDir,
-      subscribersDir,
-    }
   },
   production : {
     type: 'postgres',
@@ -50,15 +45,7 @@ const connectionOptions = {
     database: process.env.POSTGRES_DATABASE,
     migrationsRun: true,
     logging: false,
-    entities: [`${entitiesDir}/**/*.ts`],
-    migrations: [`${migrationsDir}/**/*.ts`],
-    subscribers: [`${subscribersDir}/**/*.ts`],
-    cli: {
-      entitiesDir,
-      migrationsDir,
-      subscribersDir,
-    }
   }
 }
 
-export = connectionOptions[environment]
+export = Object.assign(repoConfiguration, connectionOptions[environment])
