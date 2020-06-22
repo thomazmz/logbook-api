@@ -51,4 +51,38 @@ describe('TypeOrmAuthorizationRepository tests', () => {
     expect(expectedFinancialRecords.length).toBe(4)
     expect(filteredFinancialRecords.length).toBe(4)
   })
+  
+  test('filterByPaidDateRange should return only on range entities', async () => {
+
+    // Given
+    const floor = new Date(2020, 3, 1, 12, 30, 0)
+    const ceeling = new Date(2020, 4, 1, 12, 30, 0)
+
+    const financialRecordPartials = [
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 2, 1, 12, 30, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 3, 1, 12, 25, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 3, 1, 12, 30, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 3, 1, 12, 35, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 4, 1, 12, 25, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 4, 1, 12, 30, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 4, 1, 12, 35, 0) }),
+      generateFinancialRecordPartial({ paidAt: new Date(2020, 5, 1, 12, 30, 0) }),
+    ]
+
+    const financialRecords = await Promise.all(financialRecordPartials.map(financialRecordPartial => {
+      return financialRecordRepository.save(new FinancialRecord(financialRecordPartial))
+    }))
+
+    const expectedFinancialRecords = financialRecords.filter(financialRecord => {
+      return financialRecord.paidAt >= floor && financialRecord.paidAt <= ceeling
+    })
+
+    // When
+    const filteredFinancialRecords = await financialRecordRepository.filterByPaidDateRange(floor, ceeling)
+
+    // Then
+    expect(expectedFinancialRecords.map(fr => fr.id).includes(filteredFinancialRecords[0].id)).toBeTruthy()
+    expect(expectedFinancialRecords.length).toBe(4)
+    expect(filteredFinancialRecords.length).toBe(4)
+  })
 })

@@ -11,6 +11,12 @@ export class TypeOrmFinancialRecordRepository extends TypeOrmCrudRepository<Fina
       .where( `financialRecord.dueAt >= :floor AND financialRecord.dueAt <= :ceeling`, { floor, ceeling } )
       .getMany();
   }
+
+  filterByPaidDateRange(floor: Date, ceeling: Date): Promise<FinancialRecord[]> {
+    return this.repository.createQueryBuilder('financialRecord')
+      .where( `financialRecord.paidAt >= :floor AND financialRecord.paidAt <= :ceeling`, { floor, ceeling } )
+      .getMany();
+  }
 }
 
 export const typeOrmFinancialRecordRepositoryFactory = (): FinancialRecordRepository => {

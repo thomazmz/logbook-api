@@ -6,4 +6,5 @@ export interface FinancialRecordRepository {
   save(financialRecord: FinancialRecord): Promise<FinancialRecord>
   findById(id: number): Promise<FinancialRecord>
   filterByDueDateRange(floor: Date, ceeling: Date): Promise<FinancialRecord[]>
+  filterByPaidDateRange(floor: Date, ceeling: Date): Promise<FinancialRecord[]>
 }
