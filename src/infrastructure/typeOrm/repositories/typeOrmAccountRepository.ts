@@ -26,5 +26,5 @@ export class TypeOrmAccountRepository extends TypeOrmCrudRepository<Account, num
 }
 
 export const typeOrmAccountRepositoryFactory = (): AccountRepository => {
-  return getCustomRepository<AccountRepository>(TypeOrmAccountRepository)
+  return getCustomRepository(TypeOrmAccountRepository)
 }

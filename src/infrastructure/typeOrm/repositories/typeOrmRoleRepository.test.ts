@@ -50,7 +50,7 @@ describe('TypeOrmRoleRepository tests', () => {
     expect(findedAuthorizations).toEqual(authorizations)
   })
  
-  test('Authorizations method should embed authorizations into Role entity', async () => {
+  test('loadAuthorizations method should embed authorizations into Role entity', async () => {
     // Given some authorizations
     const someAuthorizationPartial = generateAuthorizationPartial()
     const anotherAuthorizationPartial = generateAuthorizationPartial()

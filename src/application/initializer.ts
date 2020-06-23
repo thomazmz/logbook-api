@@ -21,5 +21,6 @@ export const initializer = async(port: Number = 4040) => {
     console.log('============================================')
     console.log(`Application successfully listen on port ${port}`)
     console.log('============================================')
+    console.log('\n')
   })
 }
