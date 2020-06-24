@@ -1,0 +1,1 @@
+export { financialRecordRoutes } from './financialRecordRoutes'
