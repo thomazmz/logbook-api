@@ -24,6 +24,14 @@ export const financialRecordServiceFactory = (
   },
 
   async update(financialRecordPartial: FinancialRecordPartial): Promise<FinancialRecord> {
-    return null;
+    const { id, title, value, dueAt, paidAt } = financialRecordPartial
+
+    const findedFinancialRecord = await this.findById(id)
+    if(title) findedFinancialRecord.title = title
+    if(value) findedFinancialRecord.value = value
+    if(dueAt) findedFinancialRecord.dueAt = dueAt
+    if(paidAt) findedFinancialRecord.paidAt = paidAt
+
+    return financialRecordRepository.save(findedFinancialRecord)
   }
 })
