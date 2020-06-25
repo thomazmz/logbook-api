@@ -13,7 +13,8 @@ export const financialRecordServiceFactory = (
   },
 
   async create(financialRecordPartial: FinancialRecordPartial): Promise<FinancialRecord> {
-    return null;
+    const financialRecord = new FinancialRecord(financialRecordPartial)
+    return financialRecordRepository.save(financialRecord)
   },
 
   async findById(financialRecordId: number): Promise<FinancialRecord> {

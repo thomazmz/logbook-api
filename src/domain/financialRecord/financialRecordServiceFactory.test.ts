@@ -15,7 +15,7 @@ describe('roleService tests', () => {
     financialRecordService = financialRecordServiceFactory(financialRecordRepository)
   })
 
-  test('findAll method should return all financial records in financial record repository', async () => {
+  test('findAll method should return all FinancialRecord entities in FinancialRecordRepository', async () => {
     // Given
     const someFinancialRecord = new FinancialRecord({ title: 'someFinancialRecord' })
     const anotherFinancialRecord = new FinancialRecord({ title: 'anotherFinancialRecord' })
@@ -26,6 +26,22 @@ describe('roleService tests', () => {
     const findedFinanialRecords = await financialRecordService.findAll()
     // Then
     expect(findedFinanialRecords).toBe(mockedFinancialRecords)
+  })
+
+  test('create method should return saved FinancialRecord entity', async () => {
+    // Given
+    const id = 1
+    const title = 'someFinancialRecord'
+    const value = 0
+    const financialRecordParial = { title }
+    const savedFinancialRecord = new FinancialRecord({ id, title, value })
+    // When mocking
+    financialRecordRepository.save.mockResolvedValue(savedFinancialRecord)
+    // And calling
+    const createdFinancialRecord = await financialRecordService.create(financialRecordParial)
+    // Then
+    expect(createdFinancialRecord).toBeInstanceOf(FinancialRecord)
+    expect(createdFinancialRecord).toBe(savedFinancialRecord)
   })
 })
 
