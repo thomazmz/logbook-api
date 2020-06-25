@@ -18,7 +18,9 @@ export const financialRecordServiceFactory = (
   },
 
   async findById(financialRecordId: number): Promise<FinancialRecord> {
-    return null;
+    const findedFinancialRecord = await financialRecordRepository.findById(financialRecordId)
+    if(!findedFinancialRecord) throw new InvalidEntityIdentifierError(FinancialRecord.name, 'id', financialRecordId)
+    return findedFinancialRecord
   },
 
   async update(financialRecordPartial: FinancialRecordPartial): Promise<FinancialRecord> {

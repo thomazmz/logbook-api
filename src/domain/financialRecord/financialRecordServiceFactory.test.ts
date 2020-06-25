@@ -33,7 +33,7 @@ describe('roleService tests', () => {
     const id = 1
     const title = 'someFinancialRecord'
     const value = 0
-    const financialRecordParial = { title }
+    const financialRecordParial = { title, value }
     const savedFinancialRecord = new FinancialRecord({ id, title, value })
     // When mocking
     financialRecordRepository.save.mockResolvedValue(savedFinancialRecord)
@@ -42,6 +42,31 @@ describe('roleService tests', () => {
     // Then
     expect(createdFinancialRecord).toBeInstanceOf(FinancialRecord)
     expect(createdFinancialRecord).toBe(savedFinancialRecord)
+  })
+
+  test('findById method should find FinancialRecord entity when valid FinancialRecord id is passed', async () => {
+    // Given
+    const id = 1
+    const title = 'someFinancialRecord'
+    const value = 0
+    const financialRecordParial = { title, value }
+    const savedFinancialRecord = new FinancialRecord({ id, title, value })
+    // When mockings
+    financialRecordRepository.findById.calledWith(id).mockResolvedValue(savedFinancialRecord)
+    // And calling
+    const findedFinancialRecord = await financialRecordService.findById(id)
+    // Then
+    expect(findedFinancialRecord).toBeInstanceOf(FinancialRecord)
+    expect(findedFinancialRecord).toBe(savedFinancialRecord)
+  })
+
+  test('findById method should throw Error when invalid Role id is passed', async () => {
+    // Given
+    const invalidFinancialRecordId = 1;
+    // When
+    financialRecordRepository.findById.calledWith(invalidFinancialRecordId).mockResolvedValue(null)
+    // Then
+    expect(financialRecordService.findById(invalidFinancialRecordId)).rejects.toThrow(InvalidEntityIdentifierError)
   })
 })
 
