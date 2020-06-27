@@ -66,13 +66,13 @@ describe('Account tests', () => {
     expect(verifiedToken.id).toBe(account.id)
   })
 
-  test('verifyToken should throw error when invalid token is passed', async () => {
+  test('verifyToken should throw Error when invalid token is passed', async () => {
     // Given
     const account = new Account({ id: 111 })
     const token = 'invalidTokenString'
     // When
     const verifiedTokenPromise = account.verifyJwt(token)
     // Then
-    expect(verifiedTokenPromise).rejects.toThrow(Error)
+    await expect(verifiedTokenPromise).rejects.toThrow(Error)
   })
 })

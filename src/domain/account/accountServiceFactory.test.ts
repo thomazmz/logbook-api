@@ -74,10 +74,12 @@ describe('AccountService tests', () => {
   test('findById should throw InvalidEntityIdentifierError when invalid Account id is passed', async () => {
     // Given
     const invalidAccountId = 1;
-    // When
+    // When mocking
     accountRepository.findById.calledWith(invalidAccountId).mockResolvedValue(null)
+    // And Calling 
+    const accountPromise = accountService.findById(invalidAccountId)
     // Then
-    expect(accountService.findById(invalidAccountId)).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(accountPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('getRoles should throw InvalidEntityIdentifierError when there is no Account with the given id', async () => {
@@ -88,7 +90,7 @@ describe('AccountService tests', () => {
     // And calling 
     const rolesPromise = accountService.getRoles(invalidAccountId)
     // Then
-    expect(rolesPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(rolesPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('getRoles method shoult return Roles when valid Account id is passed', async () => {

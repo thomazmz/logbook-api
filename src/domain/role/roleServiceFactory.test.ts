@@ -6,6 +6,7 @@ import { roleServiceFactory } from './roleServiceFactory'
 import { RoleRepository } from './roleRepository'
 import { RoleService } from './roleService'
 import { Role } from './role'
+import { UnavailableEntityIdentifierError } from '../errors'
 
 
 describe('roleService tests', () => {
@@ -48,7 +49,7 @@ describe('roleService tests', () => {
     expect(createdRole).toBe(savedRole)
   })
 
-  test('create method should throw Error if Role name is already in use', async () => {
+  test('create method should throw UnavailableEntityIdentifierError if Role name is already in use', async () => {
     // Given
     const name = 'someRole'
     const rolepartial = { name }
@@ -58,7 +59,7 @@ describe('roleService tests', () => {
     // And calling
     const rolePromise = roleService.create(rolepartial)
     // Then
-    expect(rolePromise).rejects.toThrow(Error)
+    await expect(rolePromise).rejects.toThrow(UnavailableEntityIdentifierError)
   })
 
   test('findById method should find Role entity when valid Role id is passed', async () => {
@@ -75,14 +76,28 @@ describe('roleService tests', () => {
     expect(findedRole).toBe(role)
   })
 
-  test('findById method should throw Error when invalid Role id is passed', async () => {
+  test('findById method should throw InvalidEntityIdentifierError when invalid Role id is passed', async () => {
     // Given
     const invalidRoleId = 1;
     // When
     roleRepository.findById.calledWith(invalidRoleId).mockResolvedValue(null)
     // Then
-    expect(roleService.findById(invalidRoleId)).rejects.toThrow(Error)
+    await expect(roleService.findById(invalidRoleId)).rejects.toThrow(InvalidEntityIdentifierError)
   })
+
+  test('update method should throw InvalidEntityIdentifierError when invalid Role id is passed trough partial', async () => {
+    // Given
+    const invalidRolePartial = {
+      id: 1,
+    }
+    // When mocking
+    roleRepository.findById.calledWith(invalidRolePartial.id).mockResolvedValue(null)
+    // And Calling 
+    const findByIdPromise = roleService.update(invalidRolePartial)
+    // Then
+    await expect(findByIdPromise).rejects.toThrow(InvalidEntityIdentifierError)
+  })
+
 
   test('update method should update name', async () => {
     // Given
@@ -173,7 +188,7 @@ describe('roleService tests', () => {
     expect(findedAuthorizations).toBe(authorizations)
   })
 
-  test('getAuthorizations method should throw Error when there is no Role with the given id', async () => {
+  test('getAuthorizations method should throw InvalidEntityIdentifierError when there is no Role with the given id', async () => {
     // Given
     const invalidRoleId = 1
     // When mocking
@@ -181,7 +196,7 @@ describe('roleService tests', () => {
     // And calling 
     const authorizationsPromise = roleService.getAuthorizations(invalidRoleId)
     // Then
-    expect(authorizationsPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(authorizationsPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('updateAuthorizations should return updated Role entity', async () => {
@@ -218,7 +233,7 @@ describe('roleService tests', () => {
     expect(returnedUpdatedRole).toBe(updatedRole)
   })
 
-  test('updateAuthorizations should throw Error when invalid rolePartial.id is passed', async () => {
+  test('updateAuthorizations should throw InvalidEntityIdentifierError when invalid rolePartial.id is passed', async () => {
     // Given
     const invalidRoleId = 1
     const rolepartial = {
@@ -232,10 +247,10 @@ describe('roleService tests', () => {
     const updatePremissionsPromise = roleService.updateAuthorizations(rolepartial)
 
     // Then
-    expect(updatePremissionsPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(updatePremissionsPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
-  test('updateAuthorizations should throw Error when any invalid authorizationPartial.name is passed', async () => {
+  test('updateAuthorizations should throw InvalidEntityIdentifierError when any invalid authorizationPartial.name is passed', async () => {
     // Given
     const validRoleId = 1
     const validAuthorizationName = 'validAuthorizationName'
@@ -256,7 +271,7 @@ describe('roleService tests', () => {
     const updatedRolePromisse = roleService.updateAuthorizations(rolePartial)
 
     // Then 
-    expect(updatedRolePromisse).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(updatedRolePromisse).rejects.toThrow(InvalidEntityIdentifierError)
   })
 })
 

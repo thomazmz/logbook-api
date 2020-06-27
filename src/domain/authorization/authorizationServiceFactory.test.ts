@@ -32,31 +32,31 @@ describe('authorizationService tests', () => {
     expect(findedAuthorizations).toBe(authorizations)
   })
 
-  test('findByName should throw Error when name is considered invalid', async () => {
+  test('findByName should throw InvalidEntityIdentifierError when name is considered invalid', async () => {
     // Given
     const name = 'invalidAuthorizationName'
     // When
     const authorizationPromise = authorizationService.findByName(name)
     // Then
-    expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })  
   
-  test('findByName should throw Error when name parameter is undefined', () => {
+  test('findByName should throw InvalidEntityIdentifierError when name parameter is undefined', async () => {
     // Given
     const name = undefined
     // When 
     const authorizationPromise = authorizationService.findByName(name)
     // Then
-    expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
-  test('findByName should throw Error when name parameter is null', () => {
+  test('findByName should throw InvalidEntityIdentifierError when name parameter is null', async () => {
     // Given
     const name = null
     // When 
     const authorizationPromise = authorizationService.findByName(name)
     // Then
-    expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('findByName should return Authorization entity', async () => {
@@ -84,13 +84,13 @@ describe('authorizationService tests', () => {
     expect(findedAuthorization).toEqual(authorization)
   })
 
-  test('findByNames should throw Error if any of the names is invalid', async () => {
+  test('findByNames should throw InvalidEntityIdentifierError if any of the names is invalid', async () => {
     // Given
     const names = [ 'someInvalidAuthorization' ]
     // When
     const authorizationPromise = authorizationService.findByNames(names)
     // Then
-    expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
+    await expect(authorizationPromise).rejects.toThrow(InvalidEntityIdentifierError)
   })
 
   test('findByNames should return Authorization entities', async () => {

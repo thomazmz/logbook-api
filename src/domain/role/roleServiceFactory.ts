@@ -34,7 +34,7 @@ export const roleServiceFactory = (
   async update(rolePartial: RolePartial): Promise<Role> {
     const { id, name } = rolePartial
 
-    const findedRole = await roleRepository.findById(id)
+    const findedRole = await this.findById(id)
     if(name) findedRole.name = name
 
     return roleRepository.save(findedRole)
