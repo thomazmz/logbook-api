@@ -33,7 +33,7 @@
     "jwt-decode": "^2.2.0",
     "pg": "^8.0.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.24",
+    "typeorm": "^0.2.25",
     "typescript": "^3.9.2",
     "uuid": "^7.0.3"
   }
