@@ -27,7 +27,7 @@
   "dependencies": {
     "awilix": "^4.2.5",
     "bcrypt": "^4.0.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jest-mock-extended": "^1.0.8",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
